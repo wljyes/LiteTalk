@@ -30,7 +30,7 @@ public class UserDAOImp implements UserDAO {
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new User(name, rs.getString("nickname"), null);
+                return new User(name, rs.getString("nickname"), null, rs.getString("password"));
             }
             return null;
         } catch (SQLException e) {
@@ -70,5 +70,10 @@ public class UserDAOImp implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void addUser(User user) {
+        addUser(user.getName(), user.getNickname(), user.getPassword());
     }
 }

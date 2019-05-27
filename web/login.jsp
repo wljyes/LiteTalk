@@ -20,22 +20,36 @@
             <div class="am-form-group">
                 <label for="doc-ipt-email-1">用户名</label>
                 <input type="text" class="" id="doc-ipt-email-1" placeholder="输入用户名" name="username">
+                <div style="display: none" id="username-error"></div>
             </div>
 
             <div class="am-form-group">
                 <label for="doc-ipt-pwd-1">密码</label>
                 <input type="password" class="" id="doc-ipt-pwd-1" placeholder="输入密码" name="password">
+                <div style="display: none" id="password-error"></div>
             </div>
-            <p><button type="submit" class="am-btn am-btn-default">登录</button></p>
+            <p>
+                <button type="submit" class="am-btn am-btn-default">登录</button>
+            </p>
+            <div style="display: none" id="login-error"></div>
         </fieldset>
     </form>
     <div class="am-container" id="info"></div>
 </div>
 </body>
-<script>
-    var code = ${code eq null ? 0 : code};
-    if (code === 500) {
-        $('#info').html("登录失败");
-    }
+<script src="js/logOrRegDeal.js">
+ var usernameInfo = "${usernameError}";
+ var passwordInfo = "${passwordError}";
+ var loginInfo = "${error}";
+ if (usernameInfo !== '') {
+     $('#username-error').html("<span color='red'>" + usernameInfo + "</span>");
+ }
+ if (passwordInfo !== '') {
+     $('#password-error').html("<span color='red'>" + passwordInfo + "</span>");
+ }
+ if (loginInfo !== '') {
+     $('#login-error').html("<span color='red'>" + loginInfo + "</span>");
+ }
+ loadFoam("doc-ipt-email-1", "doc-ipt-pwd-1");
 </script>
 </html>

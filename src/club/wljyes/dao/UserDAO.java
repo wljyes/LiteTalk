@@ -10,4 +10,6 @@ public interface UserDAO {
     boolean match(String username, String password);
 
     void addUser(String username, String nickname, String password);
+
+    void addUser(User user);
 }
