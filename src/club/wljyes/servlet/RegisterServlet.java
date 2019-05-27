@@ -20,7 +20,8 @@ public class RegisterServlet extends HttpServlet {
         }
         else if (UserDAOImp.getUserDAOImp().getByName(username) == null) {
             UserDAOImp.getUserDAOImp().addUser(username, null, password);
-            resp.sendRedirect("/LiteTalk/login.jsp");
+            //注册成功在服务端转发实现自动登录
+            req.getRequestDispatcher("/LiteTalk/login").forward(req, resp);
         }
         return;
     }

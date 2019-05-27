@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String username = request.getParameter("username");
-    if (new UserDAOImp().getByName(username) == null) {
+    if (UserDAOImp.getUserDAOImp().getByName(username) == null) {
         out.print("<font color='green'>用户名可用</font>");
     } else {
         out.print("<font color='red'>用户名已存在</font>");
