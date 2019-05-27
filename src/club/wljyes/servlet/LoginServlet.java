@@ -41,6 +41,6 @@ public class LoginServlet extends HttpServlet {
             return;
         }
         req.getSession().setAttribute("user", user);
-        resp.sendRedirect("/index.jsp");
+        resp.sendRedirect("/LiteTalk/index.jsp");
      }
 }
