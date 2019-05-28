@@ -63,14 +63,10 @@
         </button>
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
             <div class="am-topbar-right">
-                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">
-                    <a href="register.jsp" style="color: white">注册</a>
-                </button>
+                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">注册</button>
             </div>
             <div class="am-topbar-right">
-                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">
-                    <a href="login.jsp" style="color: white">登录</a>
-                </button>
+                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</button>
             </div>
         </div>
     </div>

@@ -141,16 +141,13 @@
       ]
     });
 <%--    <%session.setAttribute("username", );%>--%>
+    var nickname = "游客" + Math.random();
+    var username = nickname;
     var isLogin = ${isLogin eq null ? false : isLogin};
-    var username;
-    var nickname;
-    if (isLogin) {
+    if (isLogin)
       nickname = '${user.nickname eq null ? user.username : user.nickname}';
       username = '${user.username}';
-    } else {
-      window.location.href="login.jsp";
-    }
-    var ws = new WebSocket("ws://localhost:80/LiteTalk/websocket/" + "${user.username}");
+    var ws = new WebSocket("ws://localhost:80/LiteTalk/websocket/" + username);
     ws.onmessage = function (ev) {
       var obj = eval('(' + ev.data + ')');
       addMessage(obj);
