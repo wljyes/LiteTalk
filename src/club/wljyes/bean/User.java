@@ -2,24 +2,24 @@ package club.wljyes.bean;
 
 public class User {
 
-    private String name;
+    private String username;
     private String nickname;
     private String avatarUrl;
     private String password;
 
-    public User(String name, String nickname, String avatarUrl) {
-        this.name = name;
+    public User(String username, String nickname, String avatarUrl) {
+        this.username = username;
         this.nickname = nickname;
         this.avatarUrl = avatarUrl;
     }
 
-    public User(String name, String nickname, String avatarUrl, String password) {
-        this(name, nickname, avatarUrl);
+    public User(String username, String nickname, String avatarUrl, String password) {
+        this(username, nickname, avatarUrl);
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     public String getNickname() {

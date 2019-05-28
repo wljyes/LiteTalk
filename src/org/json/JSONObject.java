@@ -316,17 +316,17 @@ public class JSONObject {
      * Methods that are <code>static</code>, return <code>void</code>,
      * have parameters, or are "bridge" methods, are ignored.
      * <p>
-     * For example, if an object has a method named <code>"getName"</code>, and
-     * if the result of calling <code>object.getName()</code> is
+     * For example, if an object has a method named <code>"getUsername"</code>, and
+     * if the result of calling <code>object.getUsername()</code> is
      * <code>"Larry Fine"</code>, then the JSONObject will contain
      * <code>"name": "Larry Fine"</code>.
      * <p>
      * The {@link JSONPropertyName} annotation can be used on a bean getter to
      * override key name used in the JSONObject. For example, using the object
-     * above with the <code>getName</code> method, if we annotated it with:
+     * above with the <code>getUsername</code> method, if we annotated it with:
      * <pre>
      * &#64;JSONPropertyName("FullName")
-     * public String getName() { return this.name; }
+     * public String getUsername() { return this.name; }
      * </pre>
      * The resulting JSON object would contain <code>"FullName": "Larry Fine"</code>
      * <p>
@@ -346,12 +346,12 @@ public class JSONObject {
      * performed and the one closest to the concrete class being serialized is used.
      * If both annotations are at the same level, then the {@link JSONPropertyIgnore}
      * annotation takes precedent and the field is not serialized.
-     * For example, the following declaration would prevent the <code>getName</code>
+     * For example, the following declaration would prevent the <code>getUsername</code>
      * method from being serialized:
      * <pre>
      * &#64;JSONPropertyName("FullName")
      * &#64;JSONPropertyIgnore 
-     * public String getName() { return this.name; }
+     * public String getUsername() { return this.name; }
      * </pre>
      * <p>
      * 
@@ -1594,9 +1594,6 @@ public class JSONObject {
      * Searches the class hierarchy to see if the method or it's super
      * implementations and interfaces has the annotation. Returns the depth of the
      * annotation in the hierarchy.
-     *
-     * @param <A>
-     *            type of the annotation
      *
      * @param m
      *            method to check

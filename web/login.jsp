@@ -38,18 +38,20 @@
 </div>
 </body>
 <script src="js/logOrRegDeal.js">
- var usernameInfo = "${usernameError}";
- var passwordInfo = "${passwordError}";
- var loginInfo = "${error}";
- if (usernameInfo !== '') {
-     $('#username-error').html("<span color='red'>" + usernameInfo + "</span>");
- }
- if (passwordInfo !== '') {
-     $('#password-error').html("<span color='red'>" + passwordInfo + "</span>");
- }
- if (loginInfo !== '') {
-     $('#login-error').html("<span color='red'>" + loginInfo + "</span>");
- }
- loadFoam("doc-ipt-email-1", "doc-ipt-pwd-1");
+ $(function () {
+     var usernameInfo = "${usernameError}";
+     var passwordInfo = "${passwordError}";
+     var loginInfo = "${error}";
+     if (usernameInfo !== '') {
+         $('#username-error').html("<span color='red'>" + usernameInfo + "</span>").show();
+     }
+     if (passwordInfo !== '') {
+         $('#password-error').html("<span color='red'>" + passwordInfo + "</span>").show();
+     }
+     if (loginInfo !== '') {
+         $('#login-error').html("<span color='red'>" + loginInfo + "</span>").show();
+     }
+     loadFoam("doc-ipt-email-1", "doc-ipt-pwd-1");
+ })
 </script>
 </html>

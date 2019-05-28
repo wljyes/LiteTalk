@@ -23,14 +23,14 @@ public class UserDAOImp implements UserDAO {
     private static MyConnectionPool cp = MyConnectionPool.getConnectionPool(8);
 
     @Override
-    public User getByName(String name) {
+    public User getByName(String username) {
         Connection c = cp.getConnection();
         String sql = "select * from tb_users where name = ?";
         try (PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, name);
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new User(name, rs.getString("nickname"), null, rs.getString("password"));
+                return new User(username, rs.getString("nickname"), null, rs.getString("password"));
             }
             return null;
         } catch (SQLException e) {
@@ -74,6 +74,6 @@ public class UserDAOImp implements UserDAO {
 
     @Override
     public void addUser(User user) {
-        addUser(user.getName(), user.getNickname(), user.getPassword());
+        addUser(user.getUsername(), user.getNickname(), user.getPassword());
     }
 }

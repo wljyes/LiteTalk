@@ -143,11 +143,10 @@
 <%--    <%session.setAttribute("username", );%>--%>
     var nickname = "游客" + Math.random();
     var username = nickname;
-    var code = ${code eq null ? 500 : code};
-    if (code === 200) {
-      nickname = '${nickname eq null ? username : nickname}';
-      username = '${username}';
-    }
+    var isLogin = ${isLogin eq null ? false : isLogin};
+    if (isLogin)
+      nickname = '${user.nickname eq null ? user.username : user.nickname}';
+      username = '${user.username}';
     var ws = new WebSocket("ws://localhost:80/LiteTalk/websocket/" + username);
     ws.onmessage = function (ev) {
       var obj = eval('(' + ev.data + ')');

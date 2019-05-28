@@ -44,12 +44,12 @@ representation.
 
 **JSONPropertyIgnore.java**: Annotation class that can be used on Java Bean getter methods.
 When used on a bean method that would normally be serialized into a `JSONObject`, it
-overrides the getter-to-key-name logic and forces the property to be excluded from the
+overrides the getter-to-key-username logic and forces the property to be excluded from the
 resulting `JSONObject`.
 
 **JSONPropertyName.java**: Annotation class that can be used on Java Bean getter methods.
 When used on a bean method that would normally be serialized into a `JSONObject`, it
-overrides the getter-to-key-name logic and uses the value of the annotation. The Bean
+overrides the getter-to-key-username logic and uses the value of the annotation. The Bean
 processor will look through the class hierarchy. This means you can use the annotation on
 a base class or interface and the value of the annotation will be used even if the getter
 is overridden in a child class.   

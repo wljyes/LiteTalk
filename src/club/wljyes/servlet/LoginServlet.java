@@ -40,6 +40,7 @@ public class LoginServlet extends HttpServlet {
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
             return;
         }
+        req.getSession().setAttribute("isLogin", true);
         req.getSession().setAttribute("user", user);
         resp.sendRedirect("/LiteTalk/index.jsp");
      }
