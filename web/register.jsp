@@ -29,13 +29,14 @@
                 <div style="display: none" id="password-error"></div>
             </div>
             <p><button type="submit" class="am-btn am-btn-default" id="register">注册</button></p>
-            <div style="display: none" id="login-error"></div>
+            <div style="display: none" id="register-error"></div>
         </fieldset>
     </form>
     <div class="am-container" id="info"></div>
 </div>
 </body>
-<script type="text/javascript" src="js/logOrRegDeal.js">
+<script src="js/logOrRegDeal.js"></script>
+<script type="text/javascript">
     // $(function () {
     //    $('#doc-ipt-email-1').keyup(function () {
     //        var value = $(this).val();
@@ -66,7 +67,21 @@
     //         }
     //     })
     // })
-    dealError();
-    loadFoam("doc-ipt-email-1", "doc-ipt-pwd-1");
+    loadFoam("doc-ipt-email-1", "doc-ipt-pwd-1", '${username}', '${password}');
+    var usernameError = "${errorMap.usernameError}";
+    var passwordError = "${errorMap.passwordError}";
+    var registerError = "${errorMap.registerError}";
+    var ue = $('#username-error');
+    if (usernameError != '') {
+        insertError(ue, usernameError);
+    }
+    var pe = $('#password-error');
+    if (passwordError != '') {
+        insertError(pe, passwordError);
+    }
+    var le = $('#register-error');
+    if (registerError != '') {
+        insertError(le, registerError);
+    }
 </script>
 </html>
