@@ -82,8 +82,8 @@
         </button>
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
             <div class="am-topbar-right">
-                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">
-                    <a href="register.jsp" style="color: white" id="register">注册</a>
+                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm" id="register">
+                    <a href="register.jsp" style="color: white">注册</a>
                 </button>
                 <button class="am-btn am-btn-primary am-top-bar-btn am-btn-sm" id="logout" style="display: none">
                     <a href="logout" style="color: white">注销</a>
@@ -93,22 +93,11 @@
                 <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm" id="login">
                     <a href="login.jsp" style="color: white">登录</a>
                 </button>
-                <a href="user/user.jsp" style="display: none" id="username-label"></a>
+                <button class="am-btn am-btn-primary am-top-bar-btn am-btn-sm" style="display: none;" id="username-label">
+                    <a href="user/user.jsp" style="color: white" id="username-href"></a>
+                </button>
             </div>
         </div>
     </div>
 </header>
-
-<script>
-    var isLogin = ${isLogin eq null ? false : isLogin};
-    if (isLogin) {
-        var username = ${user.username};
-        $('#register').hide();
-        $('#logout').show();
-        $('#login').hide();
-        var usernameLabel = $('#username-label');
-        usernameLabel.show();
-        usernameLabel.val(username);
-    }
-</script>
 

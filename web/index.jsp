@@ -58,6 +58,18 @@
 </head>
 <body>
   <jsp:include page="header.jsp"/>
+  <script>
+    var isLogin = ${isLogin eq null ? false : isLogin};
+    if (isLogin) {
+      var username = '${user.username}';
+      $('#register').hide();
+      $('#logout').show();
+      $('#login').hide();
+      var usernameLabel = $('#username-label');
+      $('#username-href').html(username);
+      usernameLabel.show();
+    }
+  </script>
   <div id="main" style="margin-top: 10px">
     <!-- 聊天内容展示区域 -->
     <div id="ChatBox" class="am-g am-g-fixed">
