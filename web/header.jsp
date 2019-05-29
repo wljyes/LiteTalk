@@ -52,6 +52,25 @@
     <![endif]-->
     <script src="assets/js/amazeui.min.js"></script>
 </head>
+<%--<header class="am-topbar">--%>
+<%--    <div class="am-container">--%>
+<%--        <h1 class="am-topbar-brand">--%>
+<%--            <a href="#">Lite Talk</a>--%>
+<%--        </h1>--%>
+<%--        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"--%>
+<%--                data-am-collapse="{target: '#doc-topbar-collapse'}">--%>
+<%--            <span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span>--%>
+<%--        </button>--%>
+<%--        <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">--%>
+<%--            <div class="am-topbar-right">--%>
+<%--                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">注册</button>--%>
+<%--            </div>--%>
+<%--            <div class="am-topbar-right">--%>
+<%--                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</button>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</header>--%>
 <header class="am-topbar">
     <div class="am-container">
         <h1 class="am-topbar-brand">
@@ -63,12 +82,33 @@
         </button>
         <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
             <div class="am-topbar-right">
-                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">注册</button>
+                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">
+                    <a href="register.jsp" style="color: white" id="register">注册</a>
+                </button>
+                <button class="am-btn am-btn-primary am-top-bar-btn am-btn-sm" id="logout" style="display: none">
+                    <a href="logout" style="color: white">注销</a>
+                </button>
             </div>
             <div class="am-topbar-right">
-                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</button>
+                <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm" id="login">
+                    <a href="login.jsp" style="color: white">登录</a>
+                </button>
+                <a href="user/user.jsp" style="display: none" id="username-label"></a>
             </div>
         </div>
     </div>
 </header>
+
+<script>
+    var isLogin = ${isLogin eq null ? false : isLogin};
+    if (isLogin) {
+        var username = ${user.username};
+        $('#register').hide();
+        $('#logout').show();
+        $('#login').hide();
+        var usernameLabel = $('#username-label');
+        usernameLabel.show();
+        usernameLabel.val(username);
+    }
+</script>
 

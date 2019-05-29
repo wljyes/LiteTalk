@@ -21,20 +21,20 @@ public class RegisterServlet extends HttpServlet {
 
         String username = req.getParameter("username");
         if (username == null || username.trim().isEmpty()) {
-            errors.put("username", "用户名不能为空");
+            errors.put("usernameError", "用户名不能为空");
         } else if (username.length() < 3 || username.length() > 16) {
-            errors.put("username", "用户名长度应在3-16位");
-            req.setAttribute("username", username);
+            errors.put("usernameError", "用户名长度应在3-16位");
         }
         String password = req.getParameter("password");
         if (password == null || password.trim().isEmpty()) {
-            errors.put("password", "密码不能为空");
+            errors.put("passwordError", "密码不能为空");
+            req.setAttribute("username", username);
         } else if (password.length() < 3 || password.length() > 16) {
-            errors.put("password", "密码长度应在3-16位");
-            req.setAttribute("password", password);
+            errors.put("passwordError", "密码长度应在3-16位");
+            req.setAttribute("username", username);
         }
         if (errors.size() > 0) {
-            req.setAttribute("errors", errors);
+            req.setAttribute("errorMap", errors);
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
             return;
         }
@@ -42,7 +42,8 @@ public class RegisterServlet extends HttpServlet {
             UserService service = new UserService();
             service.register(username, password);
         } catch (UserException ue) {
-            errors.put("errors", ue.getMessage());
+            errors.put("registerError", ue.getMessage());
+            req.setAttribute("errorMap", errors);
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
             return;
         }

@@ -13,16 +13,18 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 @ServerEndpoint(value="/websocket/{username}")
 public class ChatServer {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static Vector<Session> room = new Vector<>();
+    private static Map<Session, String> map = new HashMap<>();
 
     @OnOpen
     public void onOpen(@PathParam("username") String username, Session session) {
-        room.add(session);
+        map.put(session, username);
         System.out.println(session + "连接");
         ChatRoom.addUser(username);
     }
@@ -31,16 +33,16 @@ public class ChatServer {
     public void onMessage(@PathParam("username") String username, String message, Session session) {
         JSONObject obj = new JSONObject(message);
         obj.put("time", sdf.format(new Date()));
-        String sender = obj.getString("username");
-        for (Session user : room) {
-            obj.put("isSelf", username.equals(sender));
+//        String sender = obj.getString("username");
+        for (Session user : map.keySet()) {
+            obj.put("isSelf", map.get(user).equals(username));
             user.getAsyncRemote().sendText(obj.toString());
         }
     }
 
     @OnClose
     public void onClose(@PathParam("username") String username, Session session) {
-        room.remove(session);
+        map.remove(session);
         System.out.println(session + "断开");
         ChatRoom.removeUser(username);
     }

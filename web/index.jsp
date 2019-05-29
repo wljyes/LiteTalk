@@ -57,29 +57,7 @@
   <script src="assets/js/amazeui.min.js"></script>
 </head>
 <body>
-  <header class="am-topbar">
-    <div class="am-container">
-      <h1 class="am-topbar-brand">
-        <a href="#">Lite Talk</a>
-      </h1>
-      <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
-              data-am-collapse="{target: '#doc-topbar-collapse'}">
-        <span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span>
-      </button>
-      <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
-        <div class="am-topbar-right">
-          <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">
-            <a href="register.jsp" style="color: white">注册</a>
-          </button>
-        </div>
-        <div class="am-topbar-right">
-          <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">
-            <a href="login.jsp" style="color: white">登录</a>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
+  <jsp:include page="header.jsp"/>
   <div id="main" style="margin-top: 10px">
     <!-- 聊天内容展示区域 -->
     <div id="ChatBox" class="am-g am-g-fixed">
@@ -141,13 +119,16 @@
       ]
     });
 <%--    <%session.setAttribute("username", );%>--%>
-    var nickname = "游客" + Math.random();
-    var username = nickname;
     var isLogin = ${isLogin eq null ? false : isLogin};
-    if (isLogin)
+    var username;
+    var nickname;
+    if (isLogin) {
       nickname = '${user.nickname eq null ? user.username : user.nickname}';
       username = '${user.username}';
-    var ws = new WebSocket("ws://localhost:80/LiteTalk/websocket/" + username);
+    } else {
+      window.location.href="login.jsp";
+    }
+    var ws = new WebSocket("ws://localhost:80/LiteTalk/websocket/" + "${user.username}");
     ws.onmessage = function (ev) {
       var obj = eval('(' + ev.data + ')');
       addMessage(obj);

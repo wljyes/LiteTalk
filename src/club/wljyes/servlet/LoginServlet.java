@@ -31,6 +31,8 @@ public class LoginServlet extends HttpServlet {
         if (password == null || password.trim().isEmpty()) {
             req.setAttribute("passwordError", "密码不能为空");
             req.setAttribute("username", username);
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+            return;
         }
         User user;
         try {

@@ -37,21 +37,23 @@
     <div class="am-container" id="info"></div>
 </div>
 </body>
-<script src="js/logOrRegDeal.js">
- $(function () {
-     var usernameInfo = "${usernameError}";
-     var passwordInfo = "${passwordError}";
-     var loginInfo = "${error}";
-     if (usernameInfo !== '') {
-         $('#username-error').html("<span color='red'>" + usernameInfo + "</span>").show();
+<script src="js/logOrRegDeal.js"></script>
+<script type="text/javascript">
+     var usernameError = "${usernameError}";
+     var passwordError = "${passwordError}";
+     var loginError = "${error}";
+     loadFoam("doc-ipt-email-1", "doc-ipt-pwd-1", '${username}', '${password}');
+     var ue = $('#username-error');
+     if (usernameError != '') {
+         insertError(ue, usernameError);
      }
-     if (passwordInfo !== '') {
-         $('#password-error').html("<span color='red'>" + passwordInfo + "</span>").show();
+     var pe = $('#password-error');
+     if (passwordError != '') {
+         insertError(pe, passwordError);
      }
-     if (loginInfo !== '') {
-         $('#login-error').html("<span color='red'>" + loginInfo + "</span>").show();
+     var le = $('#login-error');
+     if (loginError != '') {
+         insertError(le, loginError);
      }
-     loadFoam("doc-ipt-email-1", "doc-ipt-pwd-1");
- })
 </script>
 </html>
