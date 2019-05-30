@@ -27,4 +27,12 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeNickname</servlet-name>
+        <url-pattern>/changeNickname</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangeNickname</servlet-name>
+        <servlet-class>club.wljyes.servlet.ChangeNickname</servlet-class>
+    </servlet>
 </web-app>

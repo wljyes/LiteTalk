@@ -27,4 +27,14 @@ public class UserService {
         user = new User(username, username, null, password);
         UserDAOImp.getUserDAOImp().addUser(user);
     }
+
+    public void changeNickname(String username, String nickname) throws UserException {
+        User user = UserDAOImp.getUserDAOImp().getByName(username);
+        if (user != null) {
+            user.setNickname(nickname);
+            UserDAOImp.getUserDAOImp().updateUser(user);
+        } else {
+            throw new UserException();
+        }
+    }
 }

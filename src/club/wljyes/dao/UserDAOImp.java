@@ -76,4 +76,17 @@ public class UserDAOImp implements UserDAO {
     public void addUser(User user) {
         addUser(user.getUsername(), user.getNickname(), user.getPassword());
     }
+
+    public void updateUser(User user) {
+        Connection c = cp.getConnection();
+        String update = "update tb_users set nickname = ?, password = ? where name = ?";
+        try (PreparedStatement ps = c.prepareStatement(update)) {
+            ps.setString(1, user.getNickname());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getUsername());
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
