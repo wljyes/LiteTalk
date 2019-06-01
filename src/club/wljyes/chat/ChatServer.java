@@ -25,8 +25,7 @@ public class ChatServer {
     @OnOpen
     public void onOpen(@PathParam("username") String username, Session session) {
         map.put(session, username);
-        System.out.println(session + "连接");
-        ChatRoom.addUser(username);
+        System.out.println(username + "websocket连接");
     }
 
     @OnMessage
@@ -43,7 +42,6 @@ public class ChatServer {
     @OnClose
     public void onClose(@PathParam("username") String username, Session session) {
         map.remove(session);
-        System.out.println(session + "断开");
-        ChatRoom.removeUser(username);
+        System.out.println(username + "websocket断开");
     }
 }

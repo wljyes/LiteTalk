@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet {
         }
         req.getSession().setAttribute("isLogin", true);
         req.getSession().setAttribute("user", user);
+        ChatRoom.addUser(username, user);
         resp.sendRedirect("/LiteTalk/index.jsp");
      }
 }
