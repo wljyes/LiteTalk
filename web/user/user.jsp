@@ -27,16 +27,30 @@
 </script>
 username: <span>${sessionScope.user.username}</span> <br>
 nickname:<input type="text" id="nickname" value="${sessionScope.user.nickname}">
-<button id="change">修改</button> <span id="info"></span> <br>
+<button id="changeNickname">修改</button> <span id="info"></span> <br>
+修改密码：<br>
+旧密码：<input type="text" id="oldPassword"> <br>
+新密码：<input type="text" id="newPassword"> <br>
+<button id="changePassword">修改密码</button> <span id="changePasswordInfo"></span>
 </body>
 </html>
 <script>
     $(function () {
-        $('#change').click(function () {
+        $('#changeNickname').click(function () {
             var value = $('#nickname').val();
             var data = {"nickname":value, "username":'${user.username}'};
-            var url = "/LiteTalk/changeNickname";
+            var url = "${pageContext.request.contextPath}/changeNickname";
             $('#info').load(url, data);
+        });
+        $('#changePassword').click(function () {
+            var oldPassword = $('#oldPassword').val();
+            var newPassword = $('#newPassword').val();
+            if (oldPassword === newPassword) {
+                var url = "${pageContext.request.contextPath}/changePassword";
+                $('#changePasswordInfo').load(url, {"password":newPassword});
+            } else {
+                $('#changePasswordInfo').val("密码不一致");
+            }
         })
     })
 </script>
