@@ -45,11 +45,12 @@ nickname:<input type="text" id="nickname" value="${sessionScope.user.nickname}">
         $('#changePassword').click(function () {
             var oldPassword = $('#oldPassword').val();
             var newPassword = $('#newPassword').val();
-            if (oldPassword === newPassword) {
+            var password = '${sessionScope.user.password}';
+            if (oldPassword === password) {
                 var url = "${pageContext.request.contextPath}/changePassword";
                 $('#changePasswordInfo').load(url, {"password":newPassword});
             } else {
-                $('#changePasswordInfo').val("密码不一致");
+                $('#changePasswordInfo').html("旧密码错误");
             }
         })
     })

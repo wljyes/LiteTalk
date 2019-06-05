@@ -23,6 +23,7 @@ public class ChangePassword extends HttpServlet {
             resp.getWriter().write("密码不能为空");
             return;
         }
+        //TODO:检测旧密码
         User user = (User) req.getSession().getAttribute("user");
         user.setPassword(newPassword);
         try {
