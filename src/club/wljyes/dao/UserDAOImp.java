@@ -77,7 +77,7 @@ public class UserDAOImp implements UserDAO {
         addUser(user.getUsername(), user.getNickname(), user.getPassword());
     }
 
-    public void updateUser(User user) {
+    public void updateUser(User user) throws SQLException {
         Connection c = cp.getConnection();
         String update = "update tb_users set nickname = ?, password = ? where name = ?";
         try (PreparedStatement ps = c.prepareStatement(update)) {
@@ -85,8 +85,6 @@ public class UserDAOImp implements UserDAO {
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getUsername());
             ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

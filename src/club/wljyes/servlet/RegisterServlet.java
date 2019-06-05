@@ -39,8 +39,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
         try {
-            UserService service = new UserService();
-            service.register(username, password);
+            UserService.register(username, password);
         } catch (UserException ue) {
             errors.put("registerError", ue.getMessage());
             req.setAttribute("errorMap", errors);

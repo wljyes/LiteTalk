@@ -16,15 +16,19 @@ public class ChangeNickname extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
         String nickname = req.getParameter("nickname");
-        String username = req.getParameter("username");
-
-        UserService service = new UserService();
-        try {
-            service.changeNickname(username, nickname);
-        } catch (UserException e) {
-            resp.getWriter().write("修改出错");
+        if ("".equals(nickname) || null == nickname) {
+            resp.getWriter().write("昵称不能为空");
             return;
         }
-        resp.getWriter().write("修改成功");
+        //sessionListener确保session存在
+        User user = (User) req.getSession().getAttribute("user");
+        user.setNickname(nickname);
+        try {
+            UserService.changeNickname(user);
+        } catch (UserException e) {
+            resp.getWriter().write(e.getMessage());
+            return;
+        }
+        resp.getWriter().write("昵称修改成功");
     }
 }

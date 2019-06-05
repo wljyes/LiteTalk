@@ -140,7 +140,7 @@
     } else {
       window.location.href="login.jsp";
     }
-    var ws = new WebSocket("ws://localhost:80/LiteTalk/websocket/" + "${user.username}");
+    var ws = new WebSocket("ws://localhost:8080/LiteTalk/websocket/" + "${user.username}");
     ws.onmessage = function (ev) {
       var obj = eval('(' + ev.data + ')');
       addMessage(obj);

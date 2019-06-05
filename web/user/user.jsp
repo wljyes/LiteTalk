@@ -38,7 +38,7 @@ nickname:<input type="text" id="nickname" value="${sessionScope.user.nickname}">
     $(function () {
         $('#changeNickname').click(function () {
             var value = $('#nickname').val();
-            var data = {"nickname":value, "username":'${user.username}'};
+            var data = {"nickname":value};
             var url = "${pageContext.request.contextPath}/changeNickname";
             $('#info').load(url, data);
         });

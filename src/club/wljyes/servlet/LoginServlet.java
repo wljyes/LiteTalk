@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         }
         User user;
         try {
-            user = new UserService().login(username, password);
+            user = UserService.login(username, password);
         } catch (UserException ue) {
             req.setAttribute("error", ue.getMessage());
             req.getRequestDispatcher("/login.jsp").forward(req, resp);

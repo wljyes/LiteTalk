@@ -35,4 +35,12 @@
         <servlet-name>ChangeNickname</servlet-name>
         <servlet-class>club.wljyes.servlet.ChangeNickname</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>club.wljyes.servlet.ChangePassword</servlet-class>
+    </servlet>
 </web-app>

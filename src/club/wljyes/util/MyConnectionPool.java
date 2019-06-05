@@ -50,7 +50,7 @@ public class MyConnectionPool {
         for (int i = 0; i < size; i++) {
             try {
                 connections.add(DriverManager.getConnection("jdbc:mysql://127.0.0.1/lite_talk?serverTimezone=GMT%2B8" +
-                        "&characterEncoding=utf-8", "root", "admin"));
+                        "&characterEncoding=utf-8", "root", "root"));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
