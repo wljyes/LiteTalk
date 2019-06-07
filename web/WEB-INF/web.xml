@@ -43,4 +43,28 @@
         <servlet-name>ChangePassword</servlet-name>
         <servlet-class>club.wljyes.servlet.ChangePassword</servlet-class>
     </servlet>
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>club.wljyes.filter.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>club.wljyes.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>club.wljyes.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

@@ -20,7 +20,7 @@ public class ChangeNickname extends HttpServlet {
             resp.getWriter().write("昵称不能为空");
             return;
         }
-        //sessionListener确保session存在
+        //filter确保session存在
         User user = (User) req.getSession().getAttribute("user");
         user.setNickname(nickname);
         try {
