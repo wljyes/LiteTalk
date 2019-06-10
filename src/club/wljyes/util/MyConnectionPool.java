@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyConnectionPool {
+    //todo 用enum或懒汉式实现
     //获取单例
     public static MyConnectionPool getConnectionPool(int size) {
         if (connectionPool == null || connectionPool.size != size) {

@@ -45,6 +45,7 @@ nickname:<input type="text" id="nickname" value="${sessionScope.user.nickname}">
         $('#changePassword').click(function () {
             var oldPassword = $('#oldPassword').val();
             var newPassword = $('#newPassword').val();
+            //todo 不要明文传输密码/不要存密码
             var password = '${sessionScope.user.password}';
             if (oldPassword === password) {
                 var url = "${pageContext.request.contextPath}/changePassword";
