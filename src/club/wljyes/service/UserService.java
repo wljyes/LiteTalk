@@ -1,13 +1,23 @@
 package club.wljyes.service;
 
 import club.wljyes.bean.User;
+import club.wljyes.dao.RelationshipDAO;
+import club.wljyes.dao.RelationshipDAOImp;
+import club.wljyes.dao.UserDAO;
 import club.wljyes.dao.UserDAOImp;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserService {
+
+    private static RelationshipDAO<String> relationshipDAO;
+
+    public UserService() {
+        relationshipDAO = new RelationshipDAOImp();
+    };
 
     public static User login(String username, String password) throws UserException {
         User user = UserDAOImp.getUserDAOImp().getByName(username);
@@ -47,5 +57,13 @@ public class UserService {
 
     private static void updateUser(User user) throws SQLException {
         UserDAOImp.getUserDAOImp().updateUser(user);
+    }
+
+    public List<String> getFriendList(String username) throws UserException {
+        try {
+            return relationshipDAO.getFriendList(username);
+        } catch (SQLException e) {
+            throw (UserException) new UserException("获取好友列表失败").initCause(e);
+        }
     }
 }

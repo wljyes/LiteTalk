@@ -35,6 +35,8 @@ public class UserDAOImp implements UserDAO {
             return null;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            cp.returnConnection(c);
         }
         return null;
     }
@@ -69,6 +71,8 @@ public class UserDAOImp implements UserDAO {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            cp.returnConnection(c);
         }
     }
 
@@ -85,6 +89,8 @@ public class UserDAOImp implements UserDAO {
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getUsername());
             ps.execute();
+        } finally {
+            cp.returnConnection(c);
         }
     }
 }

@@ -7,10 +7,15 @@ public class User {
     private String avatarUrl;
     private String password;
 
+    {
+        avatarUrl = "https://wljyes.club/avatar-default.jpg";
+    }
+
     public User(String username, String nickname, String avatarUrl) {
         this.username = username;
         this.nickname = nickname;
-        this.avatarUrl = avatarUrl;
+        if (avatarUrl != null)
+            this.avatarUrl = avatarUrl;
     }
 
     public User(String username, String nickname, String avatarUrl, String password) {
