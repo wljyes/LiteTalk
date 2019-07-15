@@ -24,17 +24,24 @@ import java.util.List;
 
 public class FriendListServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
         UserService userService = new UserService();
+        JSONObject jsonObject = new JSONObject();
         try {
             List<String> friendList = userService.getFriendList(user.getUsername());
             UserJsonParser<String> parser = new StringUserJsonParser();
             String userJson = parser.toJson(friendList);
-            resp.getWriter().write(userJson);
+            JSONObject json = new JSONObject(userJson);
+            JSONArray usernames = json.getJSONArray("users");
+            jsonObject.put("code", 200);
+            jsonObject.put("usernames", usernames);
+            resp.getWriter().write(jsonObject.toString());
         } catch (UserException e) {
             e.getCause().printStackTrace();
-            resp.getWriter().write(e.getMessage());
+            jsonObject.put("code", 500);
+            jsonObject.put("error", e.getMessage());
+            resp.getWriter().write(jsonObject.toString());
         }
     }
 }

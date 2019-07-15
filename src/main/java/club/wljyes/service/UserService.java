@@ -17,7 +17,7 @@ public class UserService {
 
     public UserService() {
         relationshipDAO = new RelationshipDAOImp();
-    };
+    }
 
     public static User login(String username, String password) throws UserException {
         User user = UserDAOImp.getUserDAOImp().getByName(username);
@@ -64,6 +64,23 @@ public class UserService {
             return relationshipDAO.getFriendList(username);
         } catch (SQLException e) {
             throw (UserException) new UserException("获取好友列表失败").initCause(e);
+        }
+    }
+
+    public void addFriend(String fromUser, String toUser) throws UserException {
+        try {
+            relationshipDAO.addFriend(fromUser, toUser);
+        } catch (SQLException e) {
+            throw (UserException) new UserException("添加好友失败").initCause(e);
+        }
+    }
+
+    //todo 给两方发送消息
+    public void agreeAdd(String fromUser, String toUser) throws UserException {
+        try {
+            relationshipDAO.agreeRequest(fromUser, toUser);
+        } catch (SQLException e) {
+            throw (UserException) new UserException("添加失败").initCause(e);
         }
     }
 }
