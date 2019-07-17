@@ -43,6 +43,39 @@
         <servlet-name>ChangePassword</servlet-name>
         <servlet-class>club.wljyes.servlet.ChangePassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FriendListServlet</servlet-name>
+        <servlet-class>club.wljyes.servlet.FriendListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FriendListServlet</servlet-name>
+        <url-pattern>/friendList</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddFriendServlet</servlet-name>
+        <servlet-class>club.wljyes.servlet.AddFriendServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddFriendServlet</servlet-name>
+        <url-pattern>/addFriend</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RequestListServlet</servlet-name>
+        <servlet-class>club.wljyes.servlet.RequestListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RequestListServlet</servlet-name>
+        <url-pattern>/requestList</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AgreeAddServlet</servlet-name>
+        <servlet-class>club.wljyes.servlet.AgreeAddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AgreeAddServlet</servlet-name>
+        <url-pattern>/agreeAdd</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>AccessFilter</filter-name>
         <filter-class>club.wljyes.filter.AccessFilter</filter-class>

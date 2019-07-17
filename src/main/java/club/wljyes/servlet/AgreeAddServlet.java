@@ -3,7 +3,7 @@ package club.wljyes.servlet;
 import club.wljyes.bean.User;
 import club.wljyes.service.UserException;
 import club.wljyes.service.UserService;
-import com.alibaba.fastjson.JSONObject;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +27,6 @@ public class AgreeAddServlet extends HttpServlet {
             json.put("code", 500);
             json.put("error", e.getMessage());
         }
-        resp.getWriter().write(json.toJSONString());
+        resp.getWriter().write(json.toString());
     }
 }

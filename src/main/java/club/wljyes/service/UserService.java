@@ -7,6 +7,7 @@ import club.wljyes.dao.UserDAO;
 import club.wljyes.dao.UserDAOImp;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,5 +83,25 @@ public class UserService {
         } catch (SQLException e) {
             throw (UserException) new UserException("添加失败").initCause(e);
         }
+    }
+
+    public Map<String, Integer> getRequestMap(String toUser) throws UserException {
+        Map<String, Integer> requests;
+        try {
+            requests = relationshipDAO.getRequestMap(toUser);
+        } catch (SQLException se) {
+            throw (UserException) new UserException("获取失败").initCause(se);
+        }
+        return requests;
+    }
+
+    public Map<String, Integer> getSendMap(String fromUser) throws UserException {
+        Map<String, Integer> sendMap;
+        try {
+            sendMap = relationshipDAO.getSendMap(fromUser);
+        } catch (SQLException se) {
+            throw (UserException) new UserException("获取失败").initCause(se);
+        }
+        return sendMap;
     }
 }

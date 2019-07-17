@@ -31,7 +31,7 @@ nickname:<input type="text" id="nickname" value="${sessionScope.user.nickname}">
 修改密码：<br>
 旧密码：<input type="text" id="oldPassword"> <br>
 新密码：<input type="text" id="newPassword"> <br>
-<button id="changePassword">修改密码</button> <span id="changePasswordInfo"></span>
+<button id="changePassword">修改密码</button> <span id="changePasswordInfo"></span> <br>
 </body>
 </html>
 <script>

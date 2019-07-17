@@ -1,5 +1,7 @@
 package club.wljyes.dao;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,14 +70,12 @@ public abstract class AbstractRelationshipDAOImp<T> implements RelationshipDAO<T
 
     @Override
     public boolean isAdd(String fromUser, String toUser) throws SQLException {
-        ResultSet rs = searchRequest(fromUser, toUser, 1);
-        return rs.next();
+        return searchRequest(fromUser, toUser, 1);
     }
 
     @Override
     public boolean isSend(String fromUser, String toUser) throws SQLException {
-        ResultSet rs = searchRequest(fromUser, toUser, 0);
-        return rs.next();
+        return searchRequest(fromUser, toUser, 0);
     }
 
     protected void dealRequest(String fromUser, String toUser, int isFriend) throws SQLException {
@@ -91,25 +91,36 @@ public abstract class AbstractRelationshipDAOImp<T> implements RelationshipDAO<T
         }
     }
 
-    protected ResultSet searchRequest(String fromUser, String toUser, int isFriend) throws SQLException {
+    protected boolean searchRequest(String fromUser, String toUser, int isFriend) throws SQLException {
         Connection c = getConnection();
         String sql = "select * from relationship where fromUser = ? and toUser = ? and isFriend = ?";
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, fromUser);
             ps.setString(2, toUser);
             ps.setInt(3, isFriend);
-            return ps.executeQuery();
+            return ps.executeQuery().next();
         } finally {
             returnConnection(c);
         }
     }
 
-    public ResultSet query(String sql) throws SQLException {
-        Connection c = getConnection();
-        try (PreparedStatement ps = c.prepareStatement(sql)) {
+    public ResultSet query(PreparedStatement ps, Object... parameters) throws SQLException {
+            for (int i = 0; i < parameters.length; i++) {
+                Object param = parameters[i];
+                String type = param.getClass().getSimpleName();
+                String className = param.getClass().getName();
+                String methodName = "set" + type;
+                try {
+                    Method setParamMethod = ps.getClass().getMethod(methodName, int.class, Class.forName(className));
+                    try {
+                        setParamMethod.invoke(ps, i + 1, param);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                } catch (NoSuchMethodException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
             return ps.executeQuery();
-        } finally {
-            returnConnection(c);
         }
     }
-}
