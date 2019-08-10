@@ -1,5 +1,6 @@
 package club.wljyes.servlet;
 
+import club.wljyes.bean.FriendRequest;
 import club.wljyes.bean.User;
 import club.wljyes.service.UserException;
 import club.wljyes.service.UserService;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class RequestListServlet extends HttpServlet {
@@ -21,13 +23,13 @@ public class RequestListServlet extends HttpServlet {
         //todo Json优化
         JSONObject jsonObject = new JSONObject();
         try {
-            Map<String, Integer> requests = service.getRequestMap(username);
+            List<FriendRequest> requests = service.getRequestList(username);
             jsonObject.put("code", 200);
             JSONArray requestArray = new JSONArray();
-            for (String key: requests.keySet()) {
+            for (FriendRequest fr : requests) {
                 JSONObject request = new JSONObject();
-                request.put("username", key);
-                request.put("isFriend", requests.get(key));
+                request.put("username", fr.getFromUser());
+                request.put("isFriend", fr.getIsFriend());
                 requestArray.put(request);
             }
             jsonObject.put("request", requestArray);

@@ -1,5 +1,6 @@
 package club.wljyes.service;
 
+import club.wljyes.bean.FriendRequest;
 import club.wljyes.bean.User;
 import club.wljyes.dao.RelationshipDAO;
 import club.wljyes.dao.RelationshipDAOImp;
@@ -85,23 +86,41 @@ public class UserService {
         }
     }
 
-    public Map<String, Integer> getRequestMap(String toUser) throws UserException {
-        Map<String, Integer> requests;
+    public boolean disagreeAdd(String fromUser, String toUser) {
         try {
-            requests = relationshipDAO.getRequestMap(toUser);
+            relationshipDAO.disagreeRequest(fromUser, toUser);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public List<FriendRequest> getRequestList(String toUser) throws UserException {
+        List<FriendRequest> requests;
+        try {
+            requests = relationshipDAO.getRequestList(toUser);
         } catch (SQLException se) {
             throw (UserException) new UserException("获取失败").initCause(se);
         }
         return requests;
     }
 
-    public Map<String, Integer> getSendMap(String fromUser) throws UserException {
-        Map<String, Integer> sendMap;
+    public List<FriendRequest> getSendList(String fromUser) throws UserException {
+        List<FriendRequest> sendList;
         try {
-            sendMap = relationshipDAO.getSendMap(fromUser);
+            sendList = relationshipDAO.getSendList(fromUser);
         } catch (SQLException se) {
             throw (UserException) new UserException("获取失败").initCause(se);
         }
-        return sendMap;
+        return sendList;
+    }
+
+    public boolean deleteFriend(String fromUser, String toUser) {
+        try {
+            relationshipDAO.deleteFriend(fromUser, toUser);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
     }
 }
