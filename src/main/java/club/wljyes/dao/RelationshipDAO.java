@@ -1,5 +1,6 @@
 package club.wljyes.dao;
 
+import club.wljyes.bean.FriendRequest;
 import club.wljyes.util.MyConnectionPool;
 
 import java.sql.Connection;
@@ -31,10 +32,10 @@ public interface RelationshipDAO<T> {
     void deleteBothFriend(String fromUser, String toUser) throws SQLException;
 
     //获取发送过的申请状态
-    Map<T, Integer> getSendMap(String fromUser) throws SQLException;
+    List<FriendRequest> getSendList(String fromUser) throws SQLException;
 
     //获取被申请列表
-    Map<T, Integer> getRequestMap(String toUser) throws SQLException;
+    List<FriendRequest> getRequestList(String toUser) throws SQLException;
 
     //同意申请
     void agreeRequest(String fromUser, String toUser) throws SQLException;

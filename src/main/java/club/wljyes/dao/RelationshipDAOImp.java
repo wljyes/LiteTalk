@@ -1,5 +1,7 @@
 package club.wljyes.dao;
 
+import club.wljyes.bean.FriendRequest;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,14 +34,14 @@ public class RelationshipDAOImp extends AbstractRelationshipDAOImp<String> {
     }
 
     @Override
-    public Map<String, Integer> getSendMap(String fromUser) throws SQLException {
+    public List<FriendRequest> getSendList(String fromUser) throws SQLException {
         String sql = "select * from relationship where fromUser = ?";
-        Map<String, Integer> sendList = new HashMap<>();
+        List<FriendRequest> sendList = new ArrayList<>();
         Connection c = getConnection();
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ResultSet rs = query(ps, fromUser);
             while (rs.next()) {
-                sendList.put(rs.getString("toUser"), rs.getInt("isFriend"));
+                sendList.add(new FriendRequest(fromUser, rs.getString("toUser"), rs.getInt("isFriend")));
             }
             rs.close();
         } finally {
@@ -49,19 +51,19 @@ public class RelationshipDAOImp extends AbstractRelationshipDAOImp<String> {
     }
 
     @Override
-    public Map<String, Integer> getRequestMap(String toUser) throws SQLException {
+    public List<FriendRequest> getRequestList(String toUser) throws SQLException {
         String sql = "select * from relationship where toUser = ?";
-        Map<String, Integer> requestMap = new HashMap<>();
+        List<FriendRequest> requestList = new ArrayList<>();
         Connection c = getConnection();
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ResultSet rs = query(ps, toUser);
             while (rs.next())
-                requestMap.put(rs.getString("fromUser"), rs.getInt("isFriend"));
+                requestList.add(new FriendRequest(rs.getString("fromUser"), toUser, rs.getInt("isFriend")));
             rs.close();
         }
         finally {
             returnConnection(c);
         }
-        return requestMap;
+        return requestList;
     }
 }

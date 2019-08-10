@@ -1,5 +1,7 @@
 package club.wljyes.dao;
 
+import club.wljyes.bean.FriendRequest;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -47,10 +49,10 @@ public abstract class AbstractRelationshipDAOImp<T> implements RelationshipDAO<T
     }
 
     @Override
-    public abstract Map<T, Integer> getSendMap(String fromUser) throws SQLException;
+    public abstract List<FriendRequest> getSendList(String fromUser) throws SQLException;
 
     @Override
-    public abstract Map<T, Integer> getRequestMap(String toUser) throws SQLException;
+    public abstract List<FriendRequest> getRequestList(String toUser) throws SQLException;
 
     @Override
     public void agreeRequest(String fromUser, String toUser) throws SQLException {
