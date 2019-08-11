@@ -44,7 +44,7 @@ public class UserDAOImp implements UserDAO {
     @Override
     public boolean match(String username, String password) {
         Connection c = cp.getConnection();
-        try (PreparedStatement ps = c.prepareStatement("select * from tb_users where name = ? and password = ?");) {
+        try (PreparedStatement ps = c.prepareStatement("select * from tb_users where name = ? and password = ?")) {
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();

@@ -1,19 +1,14 @@
 package club.wljyes.servlet;
 
 import club.wljyes.bean.User;
-import club.wljyes.chat.ChatRoom;
-import club.wljyes.dao.UserDAOImp;
 import club.wljyes.service.UserException;
 import club.wljyes.service.UserService;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Session;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
     @Override
@@ -44,7 +39,6 @@ public class LoginServlet extends HttpServlet {
         }
         req.getSession().setAttribute("isLogin", true);
         req.getSession().setAttribute("user", user);
-        ChatRoom.addUser(username, user);
         resp.sendRedirect("/LiteTalk/index.jsp");
      }
 }
