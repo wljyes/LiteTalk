@@ -9,8 +9,5 @@
         <module name="LiteTalk" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="LiteTalk" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

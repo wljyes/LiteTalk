@@ -25,6 +25,23 @@
         usernameLabel.show();
     }
 </script>
+<script>
+    function showMsg(msg) {
+        var from_user = msg.fromUser;
+        var content = msg.content;
+        var date = msg.date;
+        var container = document.getElementById('conversation').innerHTML.concat(
+            "<span style='color:red'>" +
+            from_user + '<br>' +
+            content + '<br>' +
+            date +
+            "<span/>" + '<br>'
+        );
+    }
+    ws = new WebSocket("ws://localhost:8080/LiteTalk/websocket/" + username);
+    ws.onmessage = function (ev) { var msg = eval('(' + ev.data + ')'); showMsg(msg); };
+    window.onbeforeunload = function () { ws.close(); };
+</script>
 username: <span>${sessionScope.user.username}</span> <br>
 nickname:<input type="text" id="nickname" value="${sessionScope.user.nickname}">
 <button id="changeNickname">修改</button> <span id="info"></span> <br>
@@ -32,6 +49,8 @@ nickname:<input type="text" id="nickname" value="${sessionScope.user.nickname}">
 旧密码：<input type="text" id="oldPassword"> <br>
 新密码：<input type="text" id="newPassword"> <br>
 <button id="changePassword">修改密码</button> <span id="changePasswordInfo"></span> <br>
+发送给：<input type="text" id="to_user"> 内容：<input type="text" id="msg_content"> <button id="send">发送</button> <br>
+<textarea id="conversation"></textarea>
 </body>
 </html>
 <script>
@@ -53,6 +72,15 @@ nickname:<input type="text" id="nickname" value="${sessionScope.user.nickname}">
             } else {
                 $('#changePasswordInfo').html("旧密码错误");
             }
+        });
+        $('#send').click(function () {
+            var to_user = document.getElementById('to_user').value;
+            var content = document.getElementById('content').value;
+            var msg = {"from_user":username, "to_user":to_user, "content":content};
+            //todo 通过http协议通信
+            var url = "${pageContext.request.contextPath}/sendMessage";
+            $.load(url, msg);
+            document.getElementById('content').innerText = "";
         })
     })
 </script>

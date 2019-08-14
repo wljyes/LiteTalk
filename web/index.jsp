@@ -55,9 +55,7 @@
   <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
   <![endif]-->
   <script src="assets/js/amazeui.min.js"></script>
-</head>
-<body>
-  <jsp:include page="header.jsp"/>
+
   <script>
     var isLogin = ${isLogin eq null ? false : isLogin};
     if (isLogin) {
@@ -70,6 +68,78 @@
       usernameLabel.show();
     }
   </script>
+
+  <link href="umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+  <script type="text/javascript" src="umeditor/umeditor.config.js"></script>
+  <script type="text/javascript" src="umeditor/umeditor.js"></script>
+  <script type="text/javascript" src="umeditor/lang/zh-cn/zh-cn.js"></script>
+  <script type="text/javascript">$(function(){
+    //窗口大小变化时，调整显示效果
+    $("#ChatBox div:eq(0)").height($(this).height()-290);
+    $(window).resize(function(){
+      $("#ChatBox div:eq(0)").height($(this).height()-290);
+    });
+    //实例化编辑器
+    var um = UM.getEditor('myEditor',{
+      initialContent:"请输入聊天信息...",
+      autoHeightEnabled:false,
+      toolbar:[
+        'source | undo redo | bold italic underline strikethrough | superscript subscript | forecolor backcolor | removeformat |',
+        'insertorderedlist insertunorderedlist | selectall cleardoc paragraph | fontfamily fontsize' ,
+        '| justifyleft justifycenter justifyright justifyjustify |',
+        'link unlink | emotion image video  | map'
+      ]
+    });
+    <%--    <%session.setAttribute("username", );%>--%>
+    var isLogin = ${isLogin eq null ? false : isLogin};
+    var username;
+    var nickname;
+    if (isLogin) {
+      nickname = '${user.nickname eq null ? user.username : user.nickname}';
+      username = '${user.username}';
+    } else {
+      window.location.href="login.jsp";
+    }
+    var ws = new WebSocket("ws://localhost:8080/LiteTalk/websocket/" + "${user.username}");
+    ws.onmessage = function (ev) {
+      var obj = eval('(' + ev.data + ')');
+      addMessage(obj);
+    };
+
+    window.onbeforeunload = function () { ws.close() };
+    $('#send').click(function () {
+      if (!um.hasContents()) {
+        um.focus();
+        $('.edui-container').addClass('am-animation-shake');
+        setTimeout($('.edui-container').removeClass('am-animation-shake'), 1000);
+      } else {
+        var text = um.getContent();
+        var str = {"username":username, "nickname":nickname, "content":text};
+        var obj = JSON.stringify(str);
+        ws.send(obj);
+        um.setContent('');
+        um.focus();
+      }
+    });
+  });
+  </script>
+  <script type="text/javascript">
+    function addMessage(msg) {
+      var cmt = $('#cmt').clone();
+      cmt.show();
+      cmt.appendTo("#chatContent");
+      cmt.find('[f=nickname]').html(msg.nickname);
+      cmt.find('[f=time]').html(msg.time);
+      cmt.find('[f=content]').html(msg.content);
+      cmt.addClass(msg.isSelf ? 'am-comment-flip' : '');
+      cmt.addClass(msg.isSelf ? 'margin-left:20%' : 'margin-right:20%');
+      $('#ChatBox div:eq(0)').scrollTop(99999);
+    }
+  </script>
+</head>
+<body>
+  <jsp:include page="header.jsp"/>
+
   <div id="main" style="margin-top: 10px">
     <!-- 聊天内容展示区域 -->
     <div id="ChatBox" class="am-g am-g-fixed">
@@ -108,73 +178,5 @@
       <button id="send" type="button" class="am-btn am-btn-primary am-btn-block">发送</button>
     </div>
   </div>
-
-  <link href="umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
-  <script type="text/javascript" src="umeditor/umeditor.config.js"></script>
-  <script type="text/javascript" src="umeditor/umeditor.js"></script>
-  <script type="text/javascript" src="umeditor/lang/zh-cn/zh-cn.js"></script>
-  <script type="text/javascript">$(function(){
-    //窗口大小变化时，调整显示效果
-    $("#ChatBox div:eq(0)").height($(this).height()-290);
-    $(window).resize(function(){
-      $("#ChatBox div:eq(0)").height($(this).height()-290);
-    });
-    //实例化编辑器
-    var um = UM.getEditor('myEditor',{
-      initialContent:"请输入聊天信息...",
-      autoHeightEnabled:false,
-      toolbar:[
-        'source | undo redo | bold italic underline strikethrough | superscript subscript | forecolor backcolor | removeformat |',
-        'insertorderedlist insertunorderedlist | selectall cleardoc paragraph | fontfamily fontsize' ,
-        '| justifyleft justifycenter justifyright justifyjustify |',
-        'link unlink | emotion image video  | map'
-      ]
-    });
-<%--    <%session.setAttribute("username", );%>--%>
-    var isLogin = ${isLogin eq null ? false : isLogin};
-    var username;
-    var nickname;
-    if (isLogin) {
-      nickname = '${user.nickname eq null ? user.username : user.nickname}';
-      username = '${user.username}';
-    } else {
-      window.location.href="login.jsp";
-    }
-    var ws = new WebSocket("ws://localhost:8080/LiteTalk/websocket/" + "${user.username}");
-    ws.onmessage = function (ev) {
-      var obj = eval('(' + ev.data + ')');
-      addMessage(obj);
-    };
-
-    window.onbeforeunload = function () { ws.close() };
-    $('#send').click(function () {
-      if (!um.hasContents()) {
-        um.focus();
-        $('.edui-container').addClass('am-animation-shake');
-        setTimeout($('.edui-container').removeClass('am-animation-shake'), 1000);
-      } else {
-        var text = um.getContent();
-        var str = {"username":username, "nickname":nickname, "content":text};
-        var obj = JSON.stringify(str);
-        ws.send(obj);
-        um.setContent('');
-        um.focus();
-      }
-    });
-  });
-  </script>
   </body>
-<script type="text/javascript">
-  function addMessage(msg) {
-    var cmt = $('#cmt').clone();
-    cmt.show();
-    cmt.appendTo("#chatContent");
-    cmt.find('[f=nickname]').html(msg.nickname);
-    cmt.find('[f=time]').html(msg.time);
-    cmt.find('[f=content]').html(msg.content);
-    cmt.addClass(msg.isSelf ? 'am-comment-flip' : '');
-    cmt.addClass(msg.isSelf ? 'margin-left:20%' : 'margin-right:20%');
-    $('#ChatBox div:eq(0)').scrollTop(99999);
-  }
-</script>
 </html>

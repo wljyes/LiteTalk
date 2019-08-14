@@ -29,7 +29,7 @@
                 <div style="display: none" id="password-error"></div>
             </div>
             <p>
-                <button type="submit" class="am-btn am-btn-default">登录</button>
+                <button type="submit" class="am-btn am-btn-default" id="login">登录</button>
             </p>
             <div style="display: none" id="login-error"></div>
         </fieldset>

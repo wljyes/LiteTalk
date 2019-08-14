@@ -47,7 +47,7 @@ public class ChatRepository {
     }
 
     public static void sendMessage(Message message) {
-        String toUser = message.getToUser();
+        String toUser = message.toUser;
         assert toUser != null;
         Session session = null;
         for (String username : map.keySet()) {
@@ -57,17 +57,17 @@ public class ChatRepository {
             }
         }
         if (session == null) {
-            if (message.getFromUser().equals("server")) {
+            if ("server".equals(message.fromUser)) {
                 return;
             }
-            Message msg = new Message("server", message.getFromUser(), "用户不在线");
+            Message msg = new Message("server", message.fromUser, "用户不在线");
             sendMessage(msg);
         }
         assert session != null;
         JSONObject json = new JSONObject();
-        json.put("fromUser", message.getFromUser());
-        json.put("toUser", message.getToUser());
-        json.put("content", message.getContent());
+        json.put("fromUser", message.fromUser);
+        json.put("toUser", message.toUser);
+        json.put("content", message.content);
         session.getAsyncRemote().sendText(json.toString());
     }
 }

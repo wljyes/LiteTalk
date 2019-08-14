@@ -2,12 +2,16 @@
   <artifact type="exploded-war" name="LiteTalk:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/LiteTalk_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="LiteTalk/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="LiteTalk" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.58" />
+          <element id="library" level="project" name="lib" />
+        </element>
       </element>
+      <element id="javaee-facet-resources" facet="LiteTalk/web/Web" />
     </root>
   </artifact>
 </component>
