@@ -62,12 +62,13 @@ public class ChatRepository {
             }
             Message msg = new Message("server", message.fromUser, "用户不在线");
             sendMessage(msg);
+        } else {
+            JSONObject json = new JSONObject();
+            json.put("fromUser", message.fromUser);
+            json.put("toUser", message.toUser);
+            json.put("content", message.content);
+            json.put("date", sdf.format(new Date()));
+            session.getAsyncRemote().sendText(json.toString());
         }
-        assert session != null;
-        JSONObject json = new JSONObject();
-        json.put("fromUser", message.fromUser);
-        json.put("toUser", message.toUser);
-        json.put("content", message.content);
-        session.getAsyncRemote().sendText(json.toString());
     }
 }

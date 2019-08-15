@@ -75,6 +75,15 @@
         <servlet-name>AgreeAddServlet</servlet-name>
         <url-pattern>/agreeAdd</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>MessageSendServlet</servlet-name>
+        <servlet-class>club.wljyes.servlet.MessageSendServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MessageSendServlet</servlet-name>
+        <url-pattern>/sendMessage</url-pattern>
+    </servlet-mapping>
+
 
     <filter>
         <filter-name>AccessFilter</filter-name>

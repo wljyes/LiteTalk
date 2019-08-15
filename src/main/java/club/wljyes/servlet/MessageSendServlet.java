@@ -18,6 +18,7 @@ public class MessageSendServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         Message msg = gson.fromJson(req.getParameter("message"), Message.class);
+        System.out.println(req.getParameter("message"));
         ChatRepository.sendMessage(msg);
     }
 }

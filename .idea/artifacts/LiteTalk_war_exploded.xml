@@ -5,10 +5,11 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="LiteTalk" />
+          <element id="extracted-dir" path="E:/maven/repository/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar" path-in-jar="/" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.58" />
           <element id="library" level="project" name="lib" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="LiteTalk/web/Web" />
