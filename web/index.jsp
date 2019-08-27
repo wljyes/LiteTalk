@@ -69,7 +69,6 @@
             var to_user = document.getElementById('to_user').value;
             var content = document.getElementById('content').value;
             var msg = {"from_user":username, "to_user":to_user, "content":content};
-            //todo 通过http协议通信
             var url = "${pageContext.request.contextPath}/sendMessage";
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open("POST", url, true);

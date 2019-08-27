@@ -34,36 +34,25 @@ public class RelationshipDAOImp extends AbstractRelationshipDAOImp<String> {
     }
 
     @Override
-    public List<FriendRequest> getSendList(String fromUser) throws SQLException {
-        String sql = "select * from relationship where fromUser = ?";
-        List<FriendRequest> sendList = new ArrayList<>();
+    public List<String> getFriendList(String fromUser, int start, int count) {
+        List<String> toUsers = new ArrayList<>();
+
+        String sql = "select * from relationship where fromUser = ? and isFriend = 1 order by toUser, id limit ?, ?";
         Connection c = getConnection();
+
         try (PreparedStatement ps = c.prepareStatement(sql)) {
-            ResultSet rs = query(ps, fromUser);
+            ps.setString(1, fromUser);
+            ps.setInt(2, start);
+            ps.setInt(3, count);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                sendList.add(new FriendRequest(fromUser, rs.getString("toUser"), rs.getInt("isFriend")));
+                toUsers.add(rs.getString(3));
             }
-            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             returnConnection(c);
         }
-        return sendList;
-    }
-
-    @Override
-    public List<FriendRequest> getRequestList(String toUser) throws SQLException {
-        String sql = "select * from relationship where toUser = ?";
-        List<FriendRequest> requestList = new ArrayList<>();
-        Connection c = getConnection();
-        try (PreparedStatement ps = c.prepareStatement(sql)) {
-            ResultSet rs = query(ps, toUser);
-            while (rs.next())
-                requestList.add(new FriendRequest(rs.getString("fromUser"), toUser, rs.getInt("isFriend")));
-            rs.close();
-        }
-        finally {
-            returnConnection(c);
-        }
-        return requestList;
+        return toUsers;
     }
 }

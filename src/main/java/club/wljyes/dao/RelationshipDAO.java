@@ -3,9 +3,7 @@ package club.wljyes.dao;
 import club.wljyes.bean.FriendRequest;
 import club.wljyes.util.MyConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +18,30 @@ public interface RelationshipDAO<T> {
     }
 
     //获取好友列表
-    List<T> getFriendList(String fromUser) throws SQLException;
+    default List<T> getFriendList(String fromUser) throws SQLException {
+        return getFriendList(fromUser, 0, Short.MAX_VALUE);
+    }
+
+    List<T> getFriendList(String fromUser, int start, int count);
+
+    default int getTotal() {
+        int total = 0;
+
+        String sql = "select count(*) from relationship";
+        Connection c = getConnection();
+
+        try (Statement s = c.createStatement()) {
+            ResultSet rs = s.executeQuery(sql);
+            if (rs.next()) {
+                total =  rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            returnConnection(c);
+        }
+        return total;
+    }
 
     //添加好友
     void addFriend(String fromUser, String toUser) throws SQLException;
