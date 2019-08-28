@@ -12,21 +12,7 @@
     <script src="js/jquery.min.js"></script>
 </head>
 <body>
-<jsp:include page="header.jsp"/>
-<script>
-    var isLogin = ${isLogin eq null ? false : isLogin};
-    if (isLogin) {
-        var username = '${user.username}';
-        $('#register').hide();
-        $('#logout').show();
-        $('#login').hide();
-        var usernameLabel = $('#username-label');
-        $('#username-href').html(username);
-        usernameLabel.show();
-    } else {
-        window.location.href = "login.jsp";
-    }
-</script>
+<jsp:include page="foreHeader.jsp"/>
 <script>
     function showMsg(msg) {
         var from_user = msg.fromUser;
@@ -48,6 +34,12 @@
 新密码：<input type="text" id="newPassword"> <br>
 <button id="changePassword">修改密码</button> <span id="changePasswordInfo"></span> <br>
 发送给：<input type="text" id="to_user"> 内容：<input type="text" id="content"> <button id="send">发送</button> <br>
+
+<form action="fore_friend_add" method="post">
+用户名：<input name="toUser" type="text">
+    <button type="submit">添加</button>
+</form> <br>
+
 <div id="conversation"></div>
 </body>
 </html>

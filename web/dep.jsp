@@ -138,7 +138,7 @@
   </script>
 </head>
 <body>
-  <jsp:include page="header.jsp"/>
+  <jsp:include page="foreHeader.jsp"/>
 
   <div id="main" style="margin-top: 10px">
     <!-- 聊天内容展示区域 -->

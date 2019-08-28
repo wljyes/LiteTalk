@@ -17,7 +17,7 @@ public class ForeServletFilter implements Filter {
         String uri = req.getRequestURI();
         String contextPath = req.getServletContext().getContextPath();
         uri = StringUtil.remove(uri, contextPath);
-        if (uri.startsWith("/method")) {
+        if (uri.startsWith("/fore")) {
             String servletPath = "/" + StringUtil.subStringBetween(uri, "_", "_") + "Servlet";
             String method = StringUtil.subStringAfterLast(uri, "_");
             req.setAttribute("method", method);

@@ -81,4 +81,18 @@
         </div>
     </div>
 </header>
+<script>
+    var isLogin = ${isLogin eq null ? false : isLogin};
+    if (isLogin) {
+        var username = '${user.username}';
+        $('#register').hide();
+        $('#logout').show();
+        $('#login').hide();
+        var usernameLabel = $('#username-label');
+        $('#username-href').html(username);
+        usernameLabel.show();
+    } else {
+        window.location.href = "login.jsp";
+    }
+</script>
 

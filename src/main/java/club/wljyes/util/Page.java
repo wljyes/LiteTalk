@@ -7,18 +7,20 @@ public class Page {
     private int count;
     private int total;
 
+    public Page() {}
+
     public Page(int start, int count) {
         this.start = start;
         this.count = count;
     }
 
-    public boolean hasPrevious() {
+    public boolean isHasPrevious() {
         if (start == 0)
             return false;
         return true;
     }
 
-    public boolean hasNext() {
+    public boolean isHasNext() {
         if (start == getLast())
             return false;
         return true;
