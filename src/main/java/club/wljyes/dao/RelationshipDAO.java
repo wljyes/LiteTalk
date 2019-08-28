@@ -24,14 +24,37 @@ public interface RelationshipDAO<T> {
 
     List<T> getFriendList(String fromUser, int start, int count);
 
-    default int getTotal() {
+    default int getRequestTotal(String toUser) {
         int total = 0;
 
-        String sql = "select count(*) from relationship";
+        String sql = "select count(*) from relationship where toUser = ? and isFriend = ?";
         Connection c = getConnection();
 
-        try (Statement s = c.createStatement()) {
-            ResultSet rs = s.executeQuery(sql);
+        try (PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, toUser);
+            ps.setInt(2, 0);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                total =  rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            returnConnection(c);
+        }
+        return total;
+    }
+
+    default int getFriendTotal(String fromUser) {
+        int total = 0;
+
+        String sql = "select count(*) from relationship where fromUser = ? and isFriend = ?";
+        Connection c = getConnection();
+
+        try (PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, fromUser);
+            ps.setInt(2, 1);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 total =  rs.getInt(1);
             }
@@ -56,7 +79,7 @@ public interface RelationshipDAO<T> {
     List<FriendRequest> getSendList(String fromUser) throws SQLException;
 
     //获取被申请列表
-    List<FriendRequest> getRequestList(String toUser) throws SQLException;
+    List<FriendRequest> getRequestList(String toUser, int start, int count);
 
     //同意申请
     void agreeRequest(String fromUser, String toUser) throws SQLException;
@@ -69,4 +92,6 @@ public interface RelationshipDAO<T> {
 
     //是否发送过请求
     boolean isSend(String fromUser, String toUser) throws SQLException;
+
+    boolean searchRequest(String fromUser, String toUser, int isFriend) throws SQLException;
 }

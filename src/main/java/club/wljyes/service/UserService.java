@@ -95,16 +95,6 @@ public class UserService {
         }
     }
 
-    public List<FriendRequest> getRequestList(String toUser) throws UserException {
-        List<FriendRequest> requests;
-        try {
-            requests = relationshipDAO.getRequestList(toUser);
-        } catch (SQLException se) {
-            throw (UserException) new UserException("获取失败").initCause(se);
-        }
-        return requests;
-    }
-
     public List<FriendRequest> getSendList(String fromUser) throws UserException {
         List<FriendRequest> sendList;
         try {

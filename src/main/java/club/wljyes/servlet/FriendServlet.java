@@ -1,6 +1,7 @@
 package club.wljyes.servlet;
 
 import club.wljyes.bean.User;
+import club.wljyes.dao.AbstractRelationshipDAOImp;
 import club.wljyes.util.Page;
 import org.json.JSONObject;
 
@@ -17,14 +18,16 @@ public class FriendServlet extends ForeBaseServlet {
         String fromUser = user.getUsername();
         JSONObject json = new JSONObject();
         try {
+            if (relationshipDAO.searchRequest(fromUser, toUser, 0))
+                return "已经向" + toUser + "发送过申请, 不能再次发送。";
+            else if (relationshipDAO.searchRequest(fromUser, toUser, 1))
+                return "您与" + toUser + "已经是好友。";
             relationshipDAO.addFriend(fromUser, toUser);
-            json.put("code", 200);
-            json.put("msg", "添加消息已发送");
         } catch (SQLException e) {
-            json.put("code", 500);
-            json.put("error", e.getMessage());
+            e.printStackTrace();
+            return "发送失败。";
         }
-        return json.toString();
+        return "已向" + toUser + "发送申请。";
     }
 
     @Override
@@ -33,7 +36,7 @@ public class FriendServlet extends ForeBaseServlet {
         String fromUser = user.getUsername();
         String toUser = req.getParameter("toUser");
         try {
-            relationshipDAO.deleteFriend(fromUser, toUser);
+            relationshipDAO.deleteBothFriend(fromUser, toUser);
         } catch (SQLException e) {
            e.printStackTrace();
         }
@@ -47,8 +50,9 @@ public class FriendServlet extends ForeBaseServlet {
 
     @Override
     public String list(HttpServletRequest req, HttpServletResponse resp, Page page) {
-        page.setTotal(relationshipDAO.getTotal());
         User user = (User) req.getSession().getAttribute("user");
+        int total = relationshipDAO.getFriendTotal(user.getUsername());
+        page.setTotal(total);
         List<String> friends = relationshipDAO.getFriendList(user.getUsername(), page.getStart(), page.getCount());
         req.setAttribute("friends", friends);
         req.setAttribute("page", page);

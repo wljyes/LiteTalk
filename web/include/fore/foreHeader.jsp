@@ -75,7 +75,7 @@
                     <a href="${pageContext.request.contextPath}/login.jsp" style="color: white">登录</a>
                 </button>
                 <button class="am-btn am-btn-primary am-top-bar-btn am-btn-sm" style="display: none;" id="username-label">
-                    <a href="${pageContext.request.contextPath}/user.jsp" style="color: white" id="username-href"></a>
+                    <a href="${pageContext.request.contextPath}/index.jsp" style="color: white" id="username-href"></a>
                 </button>
             </div>
         </div>
@@ -95,6 +95,11 @@
         } else {
             window.location.href = "login.jsp";
         }
+    }
+
+    function isEmpty(containerId) {
+        var value = $('#' + containerId).val();
+        return value.length == 0;
     }
 </script>
 

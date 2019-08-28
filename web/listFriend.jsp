@@ -10,11 +10,8 @@
 <html>
 <head>
     <title>listFriend</title>
-    <script src="http://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
-    <link href="http://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
-    <script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
-</head
-<jsp:include page="foreHeader.jsp"/>
+</head>
+<jsp:include page="include/fore/foreHeader.jsp"/>
 <script>
     checkLogin();
 </script>
@@ -43,32 +40,7 @@
         </table>
     </div>
 
-    <script>
-        $(function () {
-            $("ul.am-pagination li.disabled a").click(function () {
-                return false;
-            })
-        });
-    </script>
-
-    <div class="am-center">
-        <nav>
-            <ul data-am-widget="pagination" class="am-pagination am-pagination-default">
-                <li class="am-pagination-first ${page.hasPrevious ? "" : "disabled"}>
-                    <a href="?page.start=0">第一页</a>
-                </li>
-                <li class="am-pagination-prev ${page.hasPrevious ? "" : "disabled"}>
-                    <a href="?page.start=${page.start - page.count}">上一页</a>
-                </li>
-                <li class="am-pagination-next ${page.hasNext ? "" : "disabled"}>
-                    <a href="?page.start=${page.start - page.count}">下一页</a>
-                </li>
-                <li class="am-pagination-last ${page.hasNext ? "" : "disabled"}>
-                    <a href="?page.start=${page.last}">最末页</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    <%@include file="include/fore/forePage.jsp"%>
 </div>
 </body>
 </html>

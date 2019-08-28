@@ -10,9 +10,10 @@
 <head>
     <title>User</title>
     <script src="js/jquery.min.js"></script>
+    <script src="js/logOrRegDeal.js"></script>
 </head>
 <body>
-<jsp:include page="foreHeader.jsp"/>
+<%@include file="include/fore/foreHeader.jsp"%>
 <script>
     checkLogin();
     function showMsg(msg) {
@@ -26,9 +27,20 @@
             date +
             "</span>" + '<br>';
     }
-    ws = new WebSocket("ws://localhost:8080/LiteTalk/websocket/" + username);
+    ws = new WebSocket("ws://localhost:8080/LiteTalk/websocket/" + "${user.username}");
     ws.onmessage = function (ev) { var msg = eval('(' + ev.data + ')'); showMsg(msg); };
     window.onbeforeunload = function () { ws.close(); };
+
+    $(function () {
+        $('#addFriend').click(function () {
+            if (isEmpty('username')) {
+                insertError($('#addMsg'), "用户名不能为空！");
+            } else {
+                var toUser = $('#username').val();
+                $('#addMsg').load("fore_friend_add", {"toUser":toUser});
+            }
+        })
+    })
 </script>
 修改密码：
 旧密码：<input type="text" id="oldPassword">
@@ -36,12 +48,11 @@
 <button id="changePassword">修改密码</button> <span id="changePasswordInfo"></span> <br>
 发送给：<input type="text" id="to_user"> 内容：<input type="text" id="content"> <button id="send">发送</button> <br>
 
-<form action="fore_friend_add" method="post">
-用户名：<input name="toUser" type="text">
-    <button type="submit">添加</button>
-</form> <br>
+用户名：<input type="text" id="username"> <button id="addFriend">添加</button> <span id="addMsg"></span> <br>
 
 <button type="button"><a href="fore_friend_list">好友列表</a></button>
+
+<button type="button"><a href="fore_friendRequest_list">请求列表</a></button>
 
 <div id="conversation"></div>
 </body>

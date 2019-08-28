@@ -67,36 +67,45 @@ public abstract class AbstractRelationshipDAOImp<T> implements RelationshipDAO<T
     }
 
     @Override
-    public List<FriendRequest> getRequestList(String toUser) throws SQLException {
-        String sql = "select * from relationship where toUser = ?";
-        List<FriendRequest> requestList = new ArrayList<>();
+    public List<FriendRequest> getRequestList(String toUser, int start, int count) {
+        List<FriendRequest> requests = new ArrayList<>();
+
+        String sql = "select * from relationship where toUser = ? and isFriend = 0 order by fromUser, id limit ?, ?";
         Connection c = getConnection();
+
         try (PreparedStatement ps = c.prepareStatement(sql)) {
-            ResultSet rs = query(ps, toUser);
-            while (rs.next())
-                requestList.add(new FriendRequest(rs.getString("fromUser"), toUser, rs.getInt("isFriend")));
-            rs.close();
-        }
-        finally {
+            ps.setString(1, toUser);
+            ps.setInt(2, start);
+            ps.setInt(3, count);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String fromUser = rs.getString(2);
+                requests.add(new FriendRequest(fromUser, toUser, 0));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
             returnConnection(c);
         }
-        return requestList;
+        return requests;
     }
 
     @Override
     public void agreeRequest(String fromUser, String toUser) throws SQLException {
-        dealRequest(fromUser, toUser, 1);
+
+        dealRequest(fromUser, toUser, 1, 0);
+
         if (isSend(toUser, fromUser)) {
-            dealRequest(toUser, fromUser, 1);
+            dealRequest(toUser, fromUser, 1, 0);
         } else {
             addFriend(toUser, fromUser);
-            dealRequest(toUser, fromUser, 1);
+            dealRequest(toUser, fromUser, 1, 0);
         }
     }
 
     @Override
     public void disagreeRequest(String fromUser, String toUser) throws SQLException {
-        dealRequest(fromUser, toUser, -1);
+        dealRequest(fromUser, toUser, -1, 0);
     }
 
     @Override
@@ -109,20 +118,21 @@ public abstract class AbstractRelationshipDAOImp<T> implements RelationshipDAO<T
         return searchRequest(fromUser, toUser, 0);
     }
 
-    private void dealRequest(String fromUser, String toUser, int isFriend) throws SQLException {
+    private void dealRequest(String fromUser, String toUser, int newIsFriend, int oldIsFriend) throws SQLException {
         Connection c = getConnection();
-        String sql = "update relationship set isFriend = ? where fromUser = ? and toUser = ?";
+        String sql = "update relationship set isFriend = ? where fromUser = ? and toUser = ? and isFriend = ?";
         try (PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setInt(1, isFriend);
+            ps.setInt(1, newIsFriend);
             ps.setString(2, fromUser);
             ps.setString(3, toUser);
+            ps.setInt(4, oldIsFriend);
             ps.execute();
         } finally {
             returnConnection(c);
         }
     }
 
-    private boolean searchRequest(String fromUser, String toUser, int isFriend) throws SQLException {
+    public boolean searchRequest(String fromUser, String toUser, int isFriend) throws SQLException {
         Connection c = getConnection();
         String sql = "select * from relationship where fromUser = ? and toUser = ? and isFriend = ?";
         try (PreparedStatement ps = c.prepareStatement(sql)) {

@@ -11,7 +11,7 @@
     <title>注册</title>
 </head>
 <body>
-<%@include file="foreHeader.jsp"%>
+<%@include file="include/fore/foreHeader.jsp"%>
 <div class="am-container">
     <form class="am-form" action="register" method="post">
         <fieldset>

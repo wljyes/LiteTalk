@@ -44,22 +44,6 @@
         <servlet-class>club.wljyes.servlet.ChangePassword</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>RequestListServlet</servlet-name>
-        <servlet-class>club.wljyes.servlet.RequestListServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RequestListServlet</servlet-name>
-        <url-pattern>/requestList</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AgreeAddServlet</servlet-name>
-        <servlet-class>club.wljyes.servlet.AgreeAddServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AgreeAddServlet</servlet-name>
-        <url-pattern>/agreeAdd</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>MessageSendServlet</servlet-name>
         <servlet-class>club.wljyes.servlet.MessageSendServlet</servlet-class>
     </servlet>
@@ -74,6 +58,14 @@
     <servlet-mapping>
         <servlet-name>FriendServlet</servlet-name>
         <url-pattern>/friendServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>FriendRequestServlet</servlet-name>
+        <servlet-class>club.wljyes.servlet.FriendRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FriendRequestServlet</servlet-name>
+        <url-pattern>/friendRequestServlet</url-pattern>
     </servlet-mapping>
 
 
