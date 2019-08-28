@@ -14,6 +14,7 @@
 <body>
 <jsp:include page="foreHeader.jsp"/>
 <script>
+    checkLogin();
     function showMsg(msg) {
         var from_user = msg.fromUser;
         var content = msg.content;
@@ -29,9 +30,9 @@
     ws.onmessage = function (ev) { var msg = eval('(' + ev.data + ')'); showMsg(msg); };
     window.onbeforeunload = function () { ws.close(); };
 </script>
-修改密码：<br>
-旧密码：<input type="text" id="oldPassword"> <br>
-新密码：<input type="text" id="newPassword"> <br>
+修改密码：
+旧密码：<input type="text" id="oldPassword">
+新密码：<input type="text" id="newPassword">
 <button id="changePassword">修改密码</button> <span id="changePasswordInfo"></span> <br>
 发送给：<input type="text" id="to_user"> 内容：<input type="text" id="content"> <button id="send">发送</button> <br>
 
@@ -39,6 +40,8 @@
 用户名：<input name="toUser" type="text">
     <button type="submit">添加</button>
 </form> <br>
+
+<button type="button"><a href="fore_friend_list">好友列表</a></button>
 
 <div id="conversation"></div>
 </body>

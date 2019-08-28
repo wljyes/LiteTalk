@@ -10,7 +10,7 @@ public class StringUtil {
      */
     public static String subStringBetween(String s, String begin, String end) {
         int first = s.indexOf(begin);
-        int last = s.lastIndexOf(end, first);
+        int last = s.lastIndexOf(end);
 
         if (first < 0 || last < 0 || first == last) {
             return null;

@@ -37,7 +37,7 @@ public class FriendServlet extends ForeBaseServlet {
         } catch (SQLException e) {
            e.printStackTrace();
         }
-        return "%listFriend.jsp";
+        return "@fore_friend_list";
     }
 
     @Override
@@ -48,7 +48,7 @@ public class FriendServlet extends ForeBaseServlet {
     @Override
     public String list(HttpServletRequest req, HttpServletResponse resp, Page page) {
         page.setTotal(relationshipDAO.getTotal());
-        User user = (User) req.getAttribute("user");
+        User user = (User) req.getSession().getAttribute("user");
         List<String> friends = relationshipDAO.getFriendList(user.getUsername(), page.getStart(), page.getCount());
         req.setAttribute("friends", friends);
         req.setAttribute("page", page);

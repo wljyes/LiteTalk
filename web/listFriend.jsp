@@ -15,6 +15,9 @@
     <script src="http://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
 </head
 <jsp:include page="foreHeader.jsp"/>
+<script>
+    checkLogin();
+</script>
 <body>
 <div class="am-container">
     <div class="am-list-main">
