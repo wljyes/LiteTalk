@@ -49,10 +49,15 @@ public class MyConnectionPool {
     }
 
     private void init() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < size; i++) {
             try {
                 connections.add(DriverManager.getConnection("jdbc:mysql://127.0.0.1/lite_talk?serverTimezone=GMT%2B8" +
-                        "&characterEncoding=utf-8", "root", "root"));
+                        "&characterEncoding=utf-8", "root", "secret00"));
             } catch (SQLException e) {
                 e.printStackTrace();
             }

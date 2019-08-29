@@ -9,11 +9,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AccessFilter implements Filter {
-    private FileOutputStream out;
+    private BufferedWriter out;
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         try {
-            out = new FileOutputStream(new File("E:/servlet/LiteTalk/log/access.txt"));
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("../log/access.txt"))));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,7 +29,8 @@ public class AccessFilter implements Filter {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
 
-        out.write(String.format("%s %s 访问了 %s%n", sdf.format(date), ip, url).getBytes());
+        out.write(String.format("%s %s 访问了 %s%n", sdf.format(date), ip, url));
+        out.flush();
         filterChain.doFilter(hsq, hsp);
     }
 
