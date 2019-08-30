@@ -27,7 +27,7 @@
             date +
             "</span>" + '<br>';
     }
-    ws = new WebSocket("ws://wljyes.club:8080/LiteTalk/websocket/" + "${user.username}");
+    ws = new WebSocket("ws://localhost:8080/LiteTalk/websocket/" + "${user.username}");
     ws.onmessage = function (ev) { var msg = eval('(' + ev.data + ')'); showMsg(msg); };
     window.onbeforeunload = function () { ws.close(); };
 
@@ -72,6 +72,7 @@
             }
         });
         $('#send').click(function () {
+            var username = "${user.username}";
             var to_user = document.getElementById('to_user').value;
             var content = document.getElementById('content').value;
             var msg = {"from_user":username, "to_user":to_user, "content":content};
