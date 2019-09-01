@@ -2,6 +2,7 @@ package club.wljyes.service;
 
 import club.wljyes.bean.FriendRequest;
 import club.wljyes.bean.User;
+import club.wljyes.chat.ChatRepository;
 import club.wljyes.dao.RelationshipDAO;
 import club.wljyes.dao.RelationshipDAOImp;
 import club.wljyes.dao.UserDAO;
@@ -14,12 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 public class UserService {
-
-    private static RelationshipDAO<String> relationshipDAO;
-
-    public UserService() {
-        relationshipDAO = new RelationshipDAOImp();
-    }
 
     public static User login(String username, String password) throws UserException {
         User user = UserDAOImp.getUserDAOImp().getByName(username);
