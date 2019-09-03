@@ -23,7 +23,6 @@
                 <th>用户名</th>
                 <th>昵称</th>
                 <th>状态</th>
-                <th>聊天</th>
                 <th>删除</th>
             </thead>
             <tbody>
@@ -32,7 +31,6 @@
                     <td><%=toUser%></td>
                     <td><%=toUser%></td>
                     <td>null</td>
-                    <td><a href="user/conversation.html?toUser=<%=toUser%>">聊天</a></td>
                     <td><a href="fore_friend_delete?toUser=<%=toUser%>">删除</a></td>
                 </tr>
                 <% } %>
