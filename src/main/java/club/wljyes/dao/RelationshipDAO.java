@@ -1,20 +1,19 @@
 package club.wljyes.dao;
 
 import club.wljyes.bean.FriendRequest;
-import club.wljyes.util.MyConnectionPool;
+import club.wljyes.util.DBUtil;
 
 import java.sql.*;
 import java.util.List;
-import java.util.Map;
 
 public interface RelationshipDAO<T> {
     //从连接池获取连接
     default Connection getConnection() {
-        return MyConnectionPool.getConnectionPool(8).getConnection();
+        return DBUtil.getConnection();
     }
     //切记要归还连接，否则会使连接资源被耗尽，造成获取连接永远等待
     default void returnConnection(Connection c) {
-        MyConnectionPool.getConnectionPool(8).returnConnection(c);
+        DBUtil.returnConnection(c);
     }
 
     //获取好友列表

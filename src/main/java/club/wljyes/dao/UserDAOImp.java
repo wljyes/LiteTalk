@@ -1,7 +1,7 @@
 package club.wljyes.dao;
 
 import club.wljyes.bean.User;
-import club.wljyes.util.MyConnectionPool;
+import club.wljyes.util.DBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,11 +20,17 @@ public class UserDAOImp implements UserDAO {
 
     private UserDAOImp(){}
 
-    private static MyConnectionPool cp = MyConnectionPool.getConnectionPool(8);
+    private Connection getConnection() {
+        return DBUtil.getConnection();
+    }
+
+    private void returnConnection(Connection c) {
+        DBUtil.returnConnection(c);
+    }
 
     @Override
     public User getByName(String username) {
-        Connection c = cp.getConnection();
+        Connection c = getConnection();
         String sql = "select * from tb_users where name = ?";
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, username);
@@ -36,14 +42,14 @@ public class UserDAOImp implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            cp.returnConnection(c);
+            returnConnection(c);
         }
         return null;
     }
 
     @Override
     public boolean match(String username, String password) {
-        Connection c = cp.getConnection();
+        Connection c = getConnection();
         try (PreparedStatement ps = c.prepareStatement("select * from tb_users where name = ? and password = ?")) {
             ps.setString(1, username);
             ps.setString(2, password);
@@ -54,14 +60,14 @@ public class UserDAOImp implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            cp.returnConnection(c);
+            returnConnection(c);
         }
         return false;
     }
 
     @Override
     public void addUser(String username, String nickname, String password) {
-        Connection c = cp.getConnection();
+        Connection c = getConnection();
         String insert = "insert into tb_users values (null, ?, ?, ?, ?)";
         try (PreparedStatement ps = c.prepareStatement(insert)) {
             ps.setString(1, username);
@@ -72,7 +78,7 @@ public class UserDAOImp implements UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            cp.returnConnection(c);
+            returnConnection(c);
         }
     }
 
@@ -82,7 +88,7 @@ public class UserDAOImp implements UserDAO {
     }
 
     public void updateUser(User user) throws SQLException {
-        Connection c = cp.getConnection();
+        Connection c = getConnection();
         String update = "update tb_users set nickname = ?, password = ? where name = ?";
         try (PreparedStatement ps = c.prepareStatement(update)) {
             ps.setString(1, user.getNickname());
@@ -90,7 +96,7 @@ public class UserDAOImp implements UserDAO {
             ps.setString(3, user.getUsername());
             ps.execute();
         } finally {
-            cp.returnConnection(c);
+            returnConnection(c);
         }
     }
 }
