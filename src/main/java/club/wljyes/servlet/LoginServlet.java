@@ -3,6 +3,8 @@ package club.wljyes.servlet;
 import club.wljyes.bean.User;
 import club.wljyes.service.UserException;
 import club.wljyes.service.UserService;
+import club.wljyes.util.JWSUtil;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginServlet extends HttpServlet {
     @Override
@@ -42,6 +46,13 @@ public class LoginServlet extends HttpServlet {
 
         req.getSession().setAttribute("isLogin", true);
         req.getSession().setAttribute("user", user);
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", user.getUsername());
+        String token = JWSUtil.createToken(claims);
+
+        Cookie cookie = new Cookie("user_token", token);
+        resp.addCookie(cookie);
 
         resp.sendRedirect("/LiteTalk/index.jsp");
      }
