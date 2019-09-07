@@ -2,10 +2,14 @@ package club.wljyes.chat;
 
 import club.wljyes.bean.Message;
 import club.wljyes.bean.User;
-import club.wljyes.util.MySessionContext;
-import org.json.JSONObject;
+import club.wljyes.service.UserService;
+import club.wljyes.util.JWSUtil;
+import com.google.gson.Gson;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -13,29 +17,32 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-@ServerEndpoint(value="/websocket/{sessionId}")
+@ServerEndpoint(value="/websocket/{user_token}")
 public class ChatRepository {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static Map<User, Session> map = new HashMap<>();
 
+    private static Logger logger = LoggerFactory.getLogger(ChatRepository.class);
+
     @OnOpen
-    public void onOpen(@PathParam("sessionId") String sessionId, Session session) {
-        HttpSession hs = MySessionContext.getSession(sessionId);
-        User user = (User) hs.getAttribute("user");
-
-        if (user == null) {
+    public void onOpen(@PathParam("user_token") String userToken, Session session) {
+        Jws<Claims> jws = JWSUtil.parseToken(userToken);
+        //token无效
+        if (jws == null) {
             try {
-                session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "用户不存在"));
-            } catch (IOException e) {
-                e.printStackTrace();
+                session.close(new CloseReason(CloseReason.CloseCodes.CANNOT_ACCEPT, "无效的token"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
-            return;
+            logger.warn("无效的token试图连接");
+        } else {
+            User user = UserService.fromMap((Map) jws.getBody().get("user"));
+            map.put(user, session);
+            logger.info("user=" + user + "新建连接");
         }
-
-        map.put(user, session);
-        System.out.println(user.getUsername() + "websocket连接");
     }
 
     @OnMessage
@@ -50,11 +57,13 @@ public class ChatRepository {
     }
 
     @OnClose
-    public void onClose(@PathParam("sessionId") String sessionId, Session session) {
-        HttpSession hs = MySessionContext.getSession(sessionId);
-        User user = (User) hs.getAttribute("user");
-        map.remove(user);
-        System.out.println(user.getUsername() + "websocket断开");
+    public void onClose(@PathParam("user_token") String userToken, Session session) {
+        Jws<Claims> jws = JWSUtil.parseToken(userToken);
+        if (jws != null) {
+            User user = UserService.fromMap((Map) jws.getBody().get("user"));
+            map.remove(user);
+            logger.info("user=" + user + "断开连接");
+        }
     }
 
     public static void sendMessage(Message message) {
@@ -74,12 +83,9 @@ public class ChatRepository {
             Message msg = new Message("server", message.fromUser, "用户不在线");
             sendMessage(msg);
         } else {
-            JSONObject json = new JSONObject();
-            json.put("fromUser", message.fromUser);
-            json.put("toUser", message.toUser);
-            json.put("content", message.content);
-            json.put("date", sdf.format(new Date()));
-            session.getAsyncRemote().sendText(json.toString());
+            Gson gson = new Gson();
+            session.getAsyncRemote().sendText(gson.toJson(message));
+            logger.info("一条消息:" + message);
         }
     }
 }

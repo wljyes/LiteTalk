@@ -36,7 +36,9 @@ public class UserDAOImp implements UserDAO {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new User(username, rs.getString("nickname"), null, rs.getString("password"));
+                User user =  new User(username, rs.getString("nickname"), null, rs.getString("password"));
+                user.setId(rs.getInt(1));
+                return user;
             }
             return null;
         } catch (SQLException e) {

@@ -15,21 +15,35 @@
 <script src="../js/chat/chatUtil.js"></script>
 <script>
     checkLogin();
-    var toUser = '${requestScope.toUser}';
+    var index = window.location.href.search("toUser=");
+    var toUser = window.location.href.substring(index + 7);
     var id = document.cookie;
-    var jsessionid = getSessionId();
+    var jsessionid = getToken();
     ws = new WebSocket("ws://localhost:8080/LiteTalk/websocket/" + jsessionid);
     ws.onmessage = function (ev) { var msg = eval('(' + ev.data + ')'); showMsg('chat-list', msg, false); };
     window.onbeforeunload = function () { ws.close(); };
-    $('#message_send').click(function () {
-        if (isEmpty('message_input')) {
-            $('#message_input').focus();
-            return;
-        }
-        var msg = {"from_user":'${user.username}', "to_user":toUser, "content":$('#message_input').val()};
-        sendMsg(msg);
-        showMsg('chat-list', msg, true);
+    $(function () {
+        $('#message_send').click(function () {
+            if (isEmpty('message_input')) {
+                $('#message_input').focus();
+                return;
+            }
+            var msg = {"from_user":'${user.username}', "to_user":toUser, "content":$('#message_input').val()};
+            sendMsg(msg);
+            showMsg('chat-list', msg, true);
+        });
     });
+
+    function sendMsg(msg) {
+            var url = "${pageContext.request.contextPath}/sendMessage";
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("POST", url, true);
+            xmlHttp.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+            // var formData = new FormData();
+            // formData.append("message", JSON.stringify(msg));
+            xmlHttp.send("message=" + JSON.stringify(msg));
+            document.getElementById('message_input').value = "";
+    }
 </script>
 <body>
 <div class="chat-thread" style="height: 500px;margin-left: 200px;margin-right: 200px;margin-top: 20px;border: black">

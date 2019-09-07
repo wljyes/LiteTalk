@@ -42,10 +42,6 @@
         })
     })
 </script>
-修改密码：
-旧密码：<input type="text" id="oldPassword">
-新密码：<input type="text" id="newPassword">
-<button id="changePassword">修改密码</button> <span id="changePasswordInfo"></span> <br>
 <%--发送给：<input type="text" id="to_user"> 内容：<input type="text" id="content"> <button id="send">发送</button> <br>--%>
 
 用户名：<input type="text" id="username"> <button id="addFriend">添加</button> <span id="addMsg"></span> <br>
@@ -57,33 +53,19 @@
 <div id="conversation"></div>
 </body>
 </html>
-<script>
-    $(function () {
-        $('#changePassword').click(function () {
-            var oldPassword = $('#oldPassword').val();
-            var newPassword = $('#newPassword').val();
-            //todo 不要明文传输密码/不要存密码
-            var password = '${sessionScope.user.password}';
-            if (oldPassword === password) {
-                var url = "${pageContext.request.contextPath}/changePassword";
-                $('#changePasswordInfo').load(url, {"password":newPassword});
-            } else {
-                $('#changePasswordInfo').html("旧密码错误");
-            }
-        });
-        <%--$('#send').click(function () {--%>
-        <%--    var username = "${user.username}";--%>
-        <%--    var to_user = document.getElementById('to_user').value;--%>
-        <%--    var content = document.getElementById('content').value;--%>
-        <%--    var msg = {"from_user":username, "to_user":to_user, "content":content};--%>
-        <%--    var url = "${pageContext.request.contextPath}/sendMessage";--%>
-        <%--    var xmlHttp = new XMLHttpRequest();--%>
-        <%--    xmlHttp.open("POST", url, true);--%>
-        <%--    xmlHttp.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');--%>
-        <%--    // var formData = new FormData();--%>
-        <%--    // formData.append("message", JSON.stringify(msg));--%>
-        <%--    xmlHttp.send("message=" + JSON.stringify(msg));--%>
-        <%--    document.getElementById('content').value = "";--%>
-        <%--})--%>
-    })
-</script>
+<%--<script>--%>
+<%--        $('#send').click(function () {--%>
+<%--            var username = "${user.username}";--%>
+<%--            var to_user = document.getElementById('to_user').value;--%>
+<%--            var content = document.getElementById('content').value;--%>
+<%--            var msg = {"from_user":username, "to_user":to_user, "content":content};--%>
+<%--            var url = "${pageContext.request.contextPath}/sendMessage";--%>
+<%--            var xmlHttp = new XMLHttpRequest();--%>
+<%--            xmlHttp.open("POST", url, true);--%>
+<%--            xmlHttp.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');--%>
+<%--            // var formData = new FormData();--%>
+<%--            // formData.append("message", JSON.stringify(msg));--%>
+<%--            xmlHttp.send("message=" + JSON.stringify(msg));--%>
+<%--            document.getElementById('content').value = "";--%>
+<%--        })--%>
+<%--</script>--%>

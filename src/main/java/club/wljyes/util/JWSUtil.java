@@ -1,6 +1,9 @@
 package club.wljyes.util;
 
+import club.wljyes.bean.User;
+import com.google.gson.JsonDeserializer;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.JacksonDeserializer;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
@@ -21,9 +24,18 @@ public class JWSUtil {
     }
 
     public static Jws<Claims> parseToken(String token) {
+        return parseToken(token, null);
+    }
+
+    public static Jws<Claims> parseToken(String token, JacksonDeserializer<Map<String, ?>> deserializer) {
         Jws<Claims> jws = null;
         try {
-            jws = Jwts.parser().requireAudience("webUser").setSigningKey(key).parseClaimsJws(token);
+            if (deserializer == null) {
+                jws = Jwts.parser().requireAudience("webUser").setSigningKey(key).parseClaimsJws(token);
+            } else {
+                jws = Jwts.parser().requireAudience("webUser").deserializeJsonWith(deserializer)
+                        .setSigningKey(key).parseClaimsJws(token);
+            }
         } catch (JwtException e) {
             e.printStackTrace();
         }

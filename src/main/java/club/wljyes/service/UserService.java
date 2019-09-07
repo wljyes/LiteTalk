@@ -55,4 +55,13 @@ public class UserService {
     private static void updateUser(User user) throws SQLException {
         UserDAOImp.getUserDAOImp().updateUser(user);
     }
+
+    public static User fromMap(Map map) {
+        User user = new User();
+        user.setId((Integer) map.get("id"));
+        user.setUsername((String) map.get("username"));
+        user.setNickname((String) map.get("nickname"));
+        user.setPassword((String) map.get("password"));
+        return user;
+    }
 }

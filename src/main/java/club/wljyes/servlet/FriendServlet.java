@@ -3,7 +3,6 @@ package club.wljyes.servlet;
 import club.wljyes.bean.User;
 import club.wljyes.dao.AbstractRelationshipDAOImp;
 import club.wljyes.util.Page;
-import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,6 @@ public class FriendServlet extends ForeBaseServlet {
         User user = (User) req.getSession().getAttribute("user");
         String toUser = req.getParameter("toUser");
         String fromUser = user.getUsername();
-        JSONObject json = new JSONObject();
         try {
             if (relationshipDAO.searchRequest(fromUser, toUser, 0))
                 return "已经向" + toUser + "发送过申请, 不能再次发送。";

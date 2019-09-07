@@ -48,7 +48,9 @@ public class LoginServlet extends HttpServlet {
         req.getSession().setAttribute("user", user);
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", user.getUsername());
+        User clone = (User) user.clone();
+        clone.setPassword(null);
+        claims.put("user", clone);
         String token = JWSUtil.createToken(claims);
 
         Cookie cookie = new Cookie("user_token", token);

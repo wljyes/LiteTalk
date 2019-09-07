@@ -1,7 +1,5 @@
 package club.wljyes.util;
 
-import org.json.Property;
-
 import java.io.*;
 import java.util.Properties;
 
